@@ -2,7 +2,8 @@
   <v-list dense>
     <v-list-item two-line>
       <v-list-item-avatar color="indigo">
-        <v-icon>mdi-account-circle</v-icon>
+        <v-icon v-if="!loggedIn">mdi-account-circle</v-icon>
+        <span v-else>{{ accountName.substring(0,2) }}</span>
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title> {{ accountName }} </v-list-item-title>
@@ -45,7 +46,7 @@ export default {
       return this.loggedIn ? this.$globals.email : 'Anonymous'
     },
     accountMessage() {
-      return this.loggedIn ? 'Du bist angemeldet :)' : 'Nicht angemeldet'
+      return this.loggedIn ? 'Du bist angemeldet! :)' : 'Nicht angemeldet!'
     }
   },
   methods: {
