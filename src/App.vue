@@ -29,6 +29,9 @@
     <v-main>
       <router-view/>
     </v-main>
+    <v-footer app absolute>
+      <span class="mx-auto">&copy; {{ new Date().getFullYear() }} ASWE<b>PDA</b> Team</span>
+    </v-footer>
   </v-app>
 </template>
 
