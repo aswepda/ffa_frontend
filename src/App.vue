@@ -12,7 +12,7 @@
       dark
     >
       <template #prepend>
-        <Account/>
+        <Account />
       </template>
       <v-divider></v-divider>
       <v-list nav dense>
@@ -24,19 +24,35 @@
           <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
           <v-list-item-title> About </v-list-item-title>
         </v-list-item>
+        <v-list-item to="/test">
+          <v-list-item-title> Dynamischer Test </v-list-item-title>
+        </v-list-item>
       </v-list>
+      <template #append>
+        <v-divider />
+        <v-list nav dense>
+          <v-list-item @click="toggleTheme">
+            <v-list-item-icon><v-icon>mdi-theme-light-dark</v-icon></v-list-item-icon>
+            <v-list-item-title> Theme wechseln </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </template>
     </v-navigation-drawer>
     <v-main>
-      <router-view/>
+      <v-container>
+        <router-view />
+      </v-container>
     </v-main>
     <v-footer app absolute>
-      <span class="mx-auto">&copy; {{ new Date().getFullYear() }} ASWE<b>PDA</b> Team</span>
+      <div class="mx-auto">
+        &copy; {{ new Date().getFullYear() }} ASWE<b>PDA</b> Team
+      </div>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import Account from './components/Account.vue';
+import Account from "./components/Account.vue";
 
 export default {
   name: "App",
@@ -50,10 +66,19 @@ export default {
   }),
   computed: {
     drawer: {
-      get() { return this.$globals.drawer },
-      set(value) { this.$globals.setDrawer(value) }
-    }
-  }
+      get() {
+        return this.$globals.drawer;
+      },
+      set(value) {
+        this.$globals.setDrawer(value);
+      },
+    },
+  },
+  methods: {
+    toggleTheme() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
+  },
 };
 </script>
 
