@@ -22,7 +22,7 @@
     </div>
     <v-list-item v-if="loggedIn" @click="logout">
       <v-list-item-icon><v-icon>mdi-logout</v-icon></v-list-item-icon>
-      <v-list-item-content> Logout </v-list-item-content>
+      <v-list-item-title> Logout </v-list-item-title>
     </v-list-item>
     <Registration v-model="registrationDialog" />
     <Login v-model="loginDialog" />
@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import Login from './Login.vue';
-import Registration from "./Registration.vue";
+import Login from './dialogs/Login.vue';
+import Registration from "./dialogs/Registration.vue";
 export default {
   components: { Registration, Login },
   data: () => ({

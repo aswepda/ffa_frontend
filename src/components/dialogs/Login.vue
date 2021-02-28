@@ -2,8 +2,8 @@
   <v-dialog v-model="showDialog" max-width="290">
     <v-card>
       <v-card-actions>
-        <v-form v-model="valid" ref="form" @submit="valid && register()">
-          <h4>Willkommen zu ASWE<b>PDA</b>!</h4>
+        <v-form v-model="valid" ref="form" @submit.prevent="valid && signin()">
+          <h4>Willkommen zurück!</h4>
           <v-text-field
             v-model="email"
             label="Email"
@@ -18,27 +18,17 @@
             :rules="passwordRules"
             required
           ></v-text-field>
-          <v-text-field
-            v-model="confirmPassw"
-            label="Passwort bestätigen"
-            type="password"
-            :rules="[
-              (v) => v == password || 'Passwörter müssen übereinstimmen',
-            ]"
-            required
-          ></v-text-field>
           <v-btn
             block
             :disabled="!valid"
             type="submit"
-            :loading="registering"
+            :loading="signingin"
           >
-            Registrieren
-            <v-icon right>mdi-account-plus</v-icon>
+            Anmelden
+            <v-icon right>mdi-login</v-icon>
           </v-btn>
           <footer>
-            Wenn du bereits einen Account besitzt, kannst du dich stattdessen
-            amelden!
+            Wenn du noch keinen Account besitzt, kannst du dich stattdessen registrieren!
           </footer>
         </v-form>
       </v-card-actions>
@@ -51,7 +41,6 @@ export default {
   data: () => ({
     email: "",
     password: "",
-    confirmPassw: "",
     emailRules: [
       (v) => !!v || "Eine E-Mail muss angegeben werden",
       (v) => /.+@.+\..{2,}/.test(v) || "Die E-Mail muss valide sein",
@@ -62,7 +51,7 @@ export default {
         (v && v.length >= 8) ||
         "Das Passwort muss mindestens 8 Zeichen lang sein",
     ],
-    registering: false,
+    signingin: false,
     valid: false,
   }),
   props: {
@@ -79,12 +68,16 @@ export default {
     },
   },
   methods: {
-    register() {
+    signin() {
       if (!this.valid) return;
-      this.registering = true;
-      setTimeout(() => {
-        this.registering = false;
-        this.$emit("registered");
+      this.signingin = true;
+      setTimeout(() => { // REPLACE WITH ACTUAL LOGIC
+        this.signingin = false;
+        this.$emit("signedin");
+        this.$globals.setLoggedIn(true);
+        this.$globals.setEmail(this.email);
+        this.$refs.form.reset();
+        this.showDialog = false;
       }, 3000);
     },
   },
