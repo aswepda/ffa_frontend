@@ -85,6 +85,10 @@ export default {
       setTimeout(() => {
         this.registering = false;
         this.$emit("registered");
+        this.$globals.setLoggedIn(true);
+        this.$globals.setEmail(this.email);
+        this.$refs.form.reset();
+        this.showDialog = false;
       }, 3000);
     },
   },
