@@ -33,7 +33,9 @@
         <v-divider />
         <v-list nav dense>
           <v-list-item @click="toggleTheme">
-            <v-list-item-icon><v-icon>mdi-theme-light-dark</v-icon></v-list-item-icon>
+            <v-list-item-icon
+              ><v-icon>mdi-theme-light-dark</v-icon></v-list-item-icon
+            >
             <v-list-item-title> Theme wechseln </v-list-item-title>
           </v-list-item>
         </v-list>
@@ -64,6 +66,7 @@ export default {
 
   data: () => ({
     registrationDialog: false,
+    authCode: "",
   }),
   computed: {
     drawer: {
@@ -76,7 +79,7 @@ export default {
     },
   },
   methods: {
-    toggleTheme() {
+    async toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
   },

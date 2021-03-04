@@ -7,11 +7,13 @@ export var globalStore = new Vue({
       email: "",
       drawer: null,
       loggedIn: false,
+      credentials: ''
     }
   },
   created() {
     this.loggedIn = JSON.parse(window.localStorage.getItem('loggedIn'));
     this.email = JSON.parse(window.localStorage.getItem('email'));
+    this.credentials = JSON.parse(window.localStorage.getItem('credentials'))
   },
   computed: {
     activeNotifications() {
@@ -25,6 +27,10 @@ export var globalStore = new Vue({
     setEmail(email) {
       this.email = email;
       window.localStorage.setItem('email', JSON.stringify(email))
+    },
+    setCredentials(credentials) {
+      this.credentials = credentials;
+      window.localStorage.setItem('credentials', JSON.stringify(credentials))
     },
     setLoggedIn(state) {
       window.localStorage.setItem('loggedIn', JSON.stringify(state))
