@@ -1,6 +1,6 @@
 <template>
-  <div class="spotify mt-5">
-    <v-card :max-width="maximumWidth" elevation="10">
+  <div class="spotify">
+    <v-card :max-width="maximumWidth">
       <iframe
         :src="sourceURL"
         width="100%"
@@ -41,5 +41,8 @@ export default {
 <style>
 .spotifycontent {
   white-space: pre-line;
+}
+.spotify {
+  width: 100%;
 }
 </style>

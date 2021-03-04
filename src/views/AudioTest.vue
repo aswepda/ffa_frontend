@@ -5,6 +5,7 @@
       :uri="spotifyURI"
       :title="title"
       :is-collapsed="collapsed"
+      class="mt-5"
       >{{ content }}</Spotify
     >
     <v-text-field class="mt-10" clearable v-model="spotifyURI" label="spotifyURI"></v-text-field>
@@ -20,7 +21,7 @@ import Spotify from "../components/content/Spotify.vue";
 export default {
   data: () => ({
     audioFile: null,
-    spotifyURI: 'spotify:track:4jiswbis5Tep60DE2oyRtQ',
+    spotifyURI: 'spotify:track:6kYi1xkfSIlbudhFq6yTQI',
     collapsed: false,
     content: 'Hier ist ein Track für dich!',
     title: 'Titel'
