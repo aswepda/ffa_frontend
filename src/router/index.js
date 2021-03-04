@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Test from '../views/Test.vue'
 import AudioTest from '../views/AudioTest.vue'
+import CalendarTest from '../views/CalendarTest.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/audiotest',
     name: 'Audiotest',
     component: AudioTest
+  },
+  {
+    path: '/calendartest',
+    name: 'CalendarTest',
+    component: CalendarTest
   }
 ]
 
