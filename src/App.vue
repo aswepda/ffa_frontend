@@ -26,7 +26,7 @@
           <v-list-item-title> About </v-list-item-title>
         </v-list-item>
         <v-list-item to="/test">
-          <v-list-item-title> Dynamischer Test </v-list-item-title>
+          <v-list-item-title> Test </v-list-item-title>
         </v-list-item>
       </v-list>
       <template #append>
@@ -51,11 +51,18 @@
         &copy; {{ new Date().getFullYear() }} ASWE<b>PDA</b> Team
       </div>
     </v-footer>
+    <v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
+      Ein neue Version ist verfügbar!
+      <template #action>
+        <v-btn text @click="refreshApp" :loading="initiatedRefresh" outlined> Aktualisieren </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
 import Account from "./components/Account.vue";
+import update from "./mixins/update";
 
 export default {
   name: "App",
@@ -83,6 +90,7 @@ export default {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
   },
+  mixins: [update],
 };
 </script>
 
