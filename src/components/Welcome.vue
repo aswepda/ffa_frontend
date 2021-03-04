@@ -1,6 +1,6 @@
 <template>
   <v-container class="text-center">
-    <h1>Willkommen zu ASWE<b>PDA</b></h1>
+    <h1>Willkommen zum Food & Fitness Agent!</h1>
     <p>
       Momentan bist du nicht angemeldet. <br />Klicke oben links auf
       <v-icon>mdi-menu</v-icon> um loszulegen!

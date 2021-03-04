@@ -16,6 +16,8 @@
 <script>
 const Location = () => import("./content/Location.vue"); // lazy chunk splitting
 const Message = () => import("./content/Message.vue");
+const Spotify = () => import("./content/Spotify.vue");
+const Calendar = () => import("./content/Calendar.vue");
 
 export default {
   data: () => ({
@@ -30,7 +32,7 @@ export default {
         type: "message",
         own: false,
         id: 2,
-        text: "Das könnte dir vielleicht gefallen!",
+        text: "Das könnte dir vielleicht gefallen! 👀",
       },
       {
         type: "location",
@@ -47,6 +49,56 @@ export default {
           Landes und, wie die meisten Hochschulen in Baden-Württemberg, eine
           Körperschaft des öffentlichen Rechts.`,
       },
+      {
+        type: "message",
+        own: true,
+        id: 4,
+        text: "Hast du ein Lied für mich?",
+      },
+      {
+        type: "message",
+        own: false,
+        id: 5,
+        text: "Na klar! 🎶",
+      },
+      {
+        type: "spotify",
+        own: false,
+        id: 6,
+        uri: "spotify:track:4oYzwOTWpP3JTyKrTHJtqw",
+        title: "Awaken - Big Wild",
+        text: `Dieses Lied könnte dir vielleicht gefallen!`,
+      },
+      { type: "message", own: true, id: 7, text: "Was steht heute an?" },
+      {
+        type: "message",
+        own: false,
+        id: 8,
+        text:
+          "Ich habe die folgenden Termine in deinem Kalender gefunden! 📅",
+      },
+      {
+        type: "calendar",
+        own: false,
+        id: 7,
+        events: [
+          {
+            name: "Zahnarzt",
+            start: new Date().toISOString().slice(0, 10) + " 09:00",
+            end: new Date().toISOString().slice(0, 10) + " 10:30",
+          },
+          {
+            name: "Friseurbesuch",
+            start: new Date().toISOString().slice(0, 10) + " 14:00",
+            end: new Date().toISOString().slice(0, 10) + " 14:30",
+          },
+          {
+            name: "Steuererklärung abgeben",
+            start: new Date().toISOString().slice(0, 10) + " 17:00",
+            end: new Date().toISOString().slice(0, 10) + " 18:00",
+          },
+        ],
+      },
     ],
   }),
   methods: {
@@ -58,6 +110,12 @@ export default {
         case "location": {
           return Location;
         }
+        case "spotify": {
+          return Spotify;
+        }
+        case "calendar": {
+          return Calendar;
+        }
         default: {
           return Message;
         }
@@ -66,7 +124,7 @@ export default {
     getProps(message) {
       switch (message.type.toLowerCase()) {
         case "message": {
-          return { from: (message.own? 'du' : 'pda'), date: new Date() };
+          return { from: message.own ? "du" : "pda", date: new Date() };
         }
         case "location": {
           return {
@@ -78,6 +136,19 @@ export default {
             url: message.url || null,
           };
         }
+        case "spotify": {
+          return {
+            uri: message.uri,
+            title: message.title,
+            isCollapsed: message.isCollapsed,
+          };
+        }
+        case "calendar": {
+          return {
+            height: message.height || null,
+            events: message.events,
+          };
+        }
       }
     },
     getSlotData(message) {
@@ -86,6 +157,9 @@ export default {
           return message.text || "-";
         }
         case "location": {
+          return message.text || "-";
+        }
+        case "spotify": {
           return message.text || "-";
         }
       }
