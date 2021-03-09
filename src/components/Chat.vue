@@ -18,6 +18,7 @@ const Location = () => import("./content/Location.vue"); // lazy chunk splitting
 const Message = () => import("./content/Message.vue");
 const Spotify = () => import("./content/Spotify.vue");
 const Calendar = () => import("./content/Calendar.vue");
+const Speech = () => import("./content/Speech.vue");
 
 export default {
   data: () => ({
@@ -33,6 +34,12 @@ export default {
         own: false,
         id: 2,
         text: "Das könnte dir vielleicht gefallen! 👀",
+      },
+      {
+        type: "speech",
+        own: false,
+        id: 2,
+        text: "Das könnte dir vielleicht gefallen!",
       },
       {
         type: "location",
@@ -74,18 +81,18 @@ export default {
         type: "message",
         own: false,
         id: 8,
-        text:
-          "Ich habe die folgenden Termine in deinem Kalender gefunden! 📅",
+        text: "Ich habe die folgenden Termine in deinem Kalender gefunden! 📅",
       },
       {
         type: "calendar",
         own: false,
-        id: 7,
+        id: 9,
         events: [
           {
             name: "Zahnarzt",
             start: new Date().toISOString().slice(0, 10) + " 09:00",
             end: new Date().toISOString().slice(0, 10) + " 10:30",
+            link: "https://google.com",
           },
           {
             name: "Friseurbesuch",
@@ -104,6 +111,9 @@ export default {
   methods: {
     getComponent(message) {
       switch (message.type.toLowerCase()) {
+        case "speech": {
+          return Speech;
+        }
         case "message": {
           return Message;
         }
@@ -123,6 +133,9 @@ export default {
     },
     getProps(message) {
       switch (message.type.toLowerCase()) {
+        case "speech": {
+          return { text: message.text };
+        }
         case "message": {
           return { from: message.own ? "du" : "pda", date: new Date() };
         }
@@ -147,6 +160,7 @@ export default {
           return {
             height: message.height || null,
             events: message.events,
+            openOnClick: true,
           };
         }
       }
