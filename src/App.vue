@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>ASWE<b>PDA</b></v-toolbar-title>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" @click.middle="debugDialog = true"></v-app-bar-nav-icon>
+      <v-toolbar-title>FFA</v-toolbar-title>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -31,6 +31,7 @@
       </v-list>
       <template #append>
         <v-divider />
+        <v-text-field label="Backend" v-model="backendURL" class="mx-2 mt-3" outlined @keyup.enter="setBackend"/>
         <v-list nav dense>
           <v-list-item @click="toggleTheme">
             <v-list-item-icon
@@ -48,7 +49,7 @@
     </v-main>
     <v-footer app absolute>
       <div class="mx-auto">
-        &copy; {{ new Date().getFullYear() }} ASWE<b>PDA</b> Team
+        &copy; {{ new Date().getFullYear() }} <b>FFA</b> Team
       </div>
     </v-footer>
     <v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
@@ -57,11 +58,13 @@
         <v-btn text @click="refreshApp" :loading="initiatedRefresh" outlined> Aktualisieren </v-btn>
       </template>
     </v-snackbar>
+    <debug v-model="debugDialog"/>
   </v-app>
 </template>
 
 <script>
 import Account from "./components/Account.vue";
+import Debug from "./components/dialogs/Debug.vue";
 import update from "./mixins/update";
 
 export default {
@@ -69,11 +72,13 @@ export default {
 
   components: {
     Account,
+    Debug,
   },
-
   data: () => ({
     registrationDialog: false,
     authCode: "",
+    backendURL: "https://pda-backend.herokuapp.com",
+    debugDialog: false,
   }),
   computed: {
     drawer: {
@@ -88,6 +93,9 @@ export default {
   methods: {
     async toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
+    setBackend() {
+      this.$http.defaults.baseURL = this.backendURL;
     },
   },
   mixins: [update],
