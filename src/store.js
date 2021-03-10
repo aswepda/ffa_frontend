@@ -6,18 +6,24 @@ export var globalStore = new Vue({
       notificationStorage: [],
       email: "",
       drawer: null,
-      loggedIn: false,
-      credentials: ''
+      credentials: '',
+      spotifyCredentials: ''
     }
   },
   created() {
-    this.loggedIn = JSON.parse(window.localStorage.getItem('loggedIn'));
     this.email = JSON.parse(window.localStorage.getItem('email'));
-    this.credentials = JSON.parse(window.localStorage.getItem('credentials'))
+    this.credentials = JSON.parse(window.localStorage.getItem('credentials'));
+    this.spotifyCredentials = JSON.parse(window.localStorage.getItem('spotifycredentials'))
   },
   computed: {
     activeNotifications() {
       return this.notificationStorage.filter(notification => notification.active);
+    },
+    loggedIn() {
+      return !!this.credentials
+    },
+    spotifyLoggedIn() {
+      return !!this.spotifyCredentials
     }
   },
   methods: {
@@ -32,9 +38,9 @@ export var globalStore = new Vue({
       this.credentials = credentials;
       window.localStorage.setItem('credentials', JSON.stringify(credentials))
     },
-    setLoggedIn(state) {
-      window.localStorage.setItem('loggedIn', JSON.stringify(state))
-      this.loggedIn = state;
+    setSpotifyCredentials(credentials) {
+      this.spotifyCredentials = credentials;
+      window.localStorage.setItem('spotifycredentials', JSON.stringify(credentials))
     },
     addNotification(message, status, icon, timeout) {
       var notificationObj = { message, status, icon, active: true, id: Math.random() };
