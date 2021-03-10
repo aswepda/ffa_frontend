@@ -1,6 +1,6 @@
 <template>
   <v-sheet height="450" elevation="3">
-    <v-calendar class="pa-2" type="day" :events="events" ref="calendar">
+    <v-calendar class="pa-2" type="day" @click:event="clickEvent" :events="events" ref="calendar">
       <template v-slot:day-body>
         <div class="v-current-time" :style="{ top: nowY }"></div>
       </template>
@@ -25,16 +25,17 @@ export default {
   async created() {
     if (this.$globals.loggedIn && this.$globals.credentials) {
       try {
-        let calendarResult = await this.$http.get("calendar", {
+        let calendarResult = await this.$http.get("calendar/today", {
           headers: {
             Authorization: this.$globals.credentials,
           },
         });
         console.log(calendarResult.data);
-        let calendarEvents = calendarResult.data.events.data.map((i) => {
+        let calendarEvents = calendarResult.data.data.map((i) => {
           i["name"] = i["title"];
-          i["start"] = new Date(i["start"]).toISOString().slice(0, 16);
-          i["end"] = new Date(i["end"]).toISOString().slice(0, 16);
+          i["start"] = new Date(i["start"])
+          i["end"] = new Date(i["end"])
+          i["timed"] = true
           return i;
         });
         console.log(calendarEvents);
@@ -64,6 +65,11 @@ export default {
     updateTime() {
       setInterval(() => this.cal.updateTimes(), 60 * 1000);
     },
+    clickEvent(event) {
+      if(event.event.link) {
+        window.open(event.event.link, "_blank");
+      }
+    }
   },
 };
 </script>
