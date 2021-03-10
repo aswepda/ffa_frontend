@@ -1,6 +1,12 @@
 <template>
   <v-card height="450" :max-width="maximumWidth">
-    <v-calendar class="pa-2" type="day" :events="events" ref="calendar">
+    <v-calendar
+      class="pa-2"
+      type="day"
+      @click:event="eventClicked"
+      :events="events"
+      ref="calendar"
+    >
       <template v-slot:day-body>
         <div class="current-time" :style="{ top: nowY }"></div>
       </template>
@@ -10,13 +16,18 @@
 
 <script>
 export default {
-  props: ['events', 'height', 'max-width'],
+  props: {
+    events: Array,
+    height: Number,
+    "max-width": Number,
+    "open-on-click": Boolean,
+  },
   data: () => ({
     ready: false,
   }),
   computed: {
     computedHeight() {
-      return this.height || 450
+      return this.height || 450;
     },
     cal() {
       return this.ready ? this.$refs.calendar : null;
@@ -48,6 +59,11 @@ export default {
     updateTime() {
       setInterval(() => this.cal.updateTimes(), 60 * 1000);
     },
+    eventClicked(elem) {
+      if (this.openOnClick && elem.event.link) {
+        window.open(elem.event.link, "_blank");
+      }
+    },
   },
 };
 </script>
@@ -60,5 +76,16 @@ export default {
   left: -1px;
   right: 0;
   pointer-events: none;
+}
+
+.current-time::before {
+  content: "";
+  position: absolute;
+  background-color: #ea4335;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-top: -5px;
+  margin-left: -6.5px;
 }
 </style>
