@@ -36,13 +36,65 @@
           Körperschaft des öffentlichen Rechts.
         </Location>
       </v-row>
+      <v-row justify="start" class="mb-4">
+        <weather/>
+      </v-row>
+      <v-row justify="start" class="mb-4">
+        <v-col class="col-6">
+        <v-card color="#245535" dark>
+          <div class="d-flex flex-no-wrap justify-space-between">
+            <div>
+              <v-card-title> Sport 🏀 </v-card-title>
+              <v-card-subtitle>
+                Lust auf ein bisschen Sport? :)
+              </v-card-subtitle>
+              <v-card-actions>
+                <v-btn class="ml-2 mt-5 mb-1" outlined rounded small>
+                  Los geht's!
+                </v-btn>
+              </v-card-actions>
+            </div>
+            <v-img
+              contain
+              class="ma-3"
+              src="/img/test.png"
+              max-width="40%"
+            ></v-img>
+          </div>
+        </v-card>
+        </v-col>
+        <v-col class="col-6">
+        <v-card color="#350A67" dark>
+          <div class="d-flex flex-no-wrap justify-space-between">
+            <div>
+              <v-card-title> Gute Nacht 🌃</v-card-title>
+              <v-card-subtitle>
+                Deine Abendroutine
+              </v-card-subtitle>
+              <v-card-actions>
+                <v-btn class="ml-2 mt-5 mb-1" outlined rounded small>
+                  Los geht's!
+                </v-btn>
+              </v-card-actions>
+            </div>
+            <v-img
+              contain
+              class="ma-3"
+              src="/img/sleep.png"
+              max-width="40%"
+            ></v-img>
+          </div>
+        </v-card>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
 import Location from "../components/content/Location.vue";
+import Weather from '../components/content/Weather.vue';
 export default {
-  components: { Location },
+  components: { Location, Weather },
 };
 </script>
