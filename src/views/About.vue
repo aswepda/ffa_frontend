@@ -39,16 +39,17 @@
       <v-row justify="start" class="mb-4">
         <weather/>
       </v-row>
-      <v-row justify="start" class="mb-4">
-        <v-col class="col-6">
-        <v-card color="#245535" dark>
+      <v-row justify="start" align="stretch">
+        <v-col class="col-md-6">
+        <v-card color="#245535" dark elevation="12" height="100%">
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
-              <v-card-title> Sport 🏀 </v-card-title>
+              <v-card-text class="pb-1">⭐ Relevant</v-card-text>
+              <v-card-title class="pt-0"> Sport 🏀 </v-card-title>
               <v-card-subtitle>
                 Lust auf ein bisschen Sport? :)
               </v-card-subtitle>
-              <v-card-actions>
+              <v-card-actions class="card-actions">
                 <v-btn class="ml-2 mt-5 mb-1" outlined rounded small>
                   Los geht's!
                 </v-btn>
@@ -59,19 +60,20 @@
               class="ma-3"
               src="/img/test.png"
               max-width="40%"
+              max-height="130"
             ></v-img>
           </div>
         </v-card>
         </v-col>
-        <v-col class="col-6">
-        <v-card color="#350A67" dark>
+        <v-col class="col-md-6">
+        <v-card color="#350A67" dark height="100%">
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
               <v-card-title> Gute Nacht 🌃</v-card-title>
               <v-card-subtitle>
                 Deine Abendroutine
               </v-card-subtitle>
-              <v-card-actions>
+              <v-card-actions class="card-actions">
                 <v-btn class="ml-2 mt-5 mb-1" outlined rounded small>
                   Los geht's!
                 </v-btn>
@@ -80,11 +82,24 @@
             <v-img
               contain
               class="ma-3"
-              src="/img/sleep.png"
+              src="/img/sleep_cloud.png"
               max-width="40%"
+              max-height="130"
             ></v-img>
           </div>
         </v-card>
+        </v-col>
+      </v-row>
+      <v-row justify="start" class="mb-4" align="stretch">
+        <v-col class="col-md-6">
+          <Action imageURL="/img/morning.png" color="#F47458" title="Guten Morgen ☕">
+            Guten Morgen! Deine Routine für den Start in den Tag. :)
+          </Action>
+        </v-col>
+        <v-col class="col-md-6">
+          <Action imageURL="/img/eat.png" color="#365DA4" title="Essen 🥗">
+            Frühstück, Mittagessen oder Abendessen?<br>Deine Routine für jeden Hunger.
+          </Action>
         </v-col>
       </v-row>
     </v-container>
@@ -92,9 +107,17 @@
 </template>
 
 <script>
+import Action from '../components/Action.vue';
 import Location from "../components/content/Location.vue";
 import Weather from '../components/content/Weather.vue';
 export default {
-  components: { Location, Weather },
+  components: { Location, Weather, Action },
 };
 </script>
+
+<style scoped>
+.card-actions {
+  position: absolute;
+  bottom: 0;
+}
+</style>
