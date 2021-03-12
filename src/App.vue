@@ -44,7 +44,10 @@
     </v-navigation-drawer>
     <v-main>
       <v-container>
-        <router-view />
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive"/>
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"/>
       </v-container>
     </v-main>
     <v-footer app absolute>

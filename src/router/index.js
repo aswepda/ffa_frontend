@@ -24,7 +24,10 @@ const routes = [
   {
     path: '/test',
     name: 'Test',
-    component: Test
+    component: Test,
+    meta: {
+      keepAlive: true
+    }
   },
   {
     path: '/audiotest',
