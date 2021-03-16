@@ -37,14 +37,14 @@
         </Location>
       </v-row>
       <v-row justify="start" class="mb-4">
-        <weather/>
+        <weather icon="01d" temperature="20" city="Stuttgart" :humidity="28" windspeed="3" condition="Sonnig"/>
       </v-row>
       <v-row justify="start" align="stretch">
         <v-col class="col-md-6">
         <v-card color="#245535" dark elevation="12" height="100%">
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
-              <v-card-text class="pb-1">⭐ Relevant</v-card-text>
+              <v-card-text class="pb-1">⭐ Empfohlen</v-card-text>
               <v-card-title class="pt-0"> Sport 🏀 </v-card-title>
               <v-card-subtitle>
                 Lust auf ein bisschen Sport? :)
@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import Action from '../components/Action.vue';
+import Action from '../components/usecases/ActionCard.vue';
 import Location from "../components/content/Location.vue";
 import Weather from '../components/content/Weather.vue';
 export default {

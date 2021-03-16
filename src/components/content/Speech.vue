@@ -1,5 +1,5 @@
 <template>
-  <Audio auto-play :file="audioFile" speech :max-width="maximumWidth"/>
+  <Audio :auto-play="autoplay" :file="audioFile" speech :max-width="maximumWidth"/>
 </template>
 
 <script>
@@ -9,7 +9,11 @@ export default {
   components: { Audio },
   props: {
     text: String,
-    maxWidth: Number
+    maxWidth: Number,
+    autoplay: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
