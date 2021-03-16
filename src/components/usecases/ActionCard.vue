@@ -15,8 +15,8 @@
         contain
         class="ma-3"
         :src="imageURL"
-        max-width="40%"
-        max-height="130"
+        max-width="45%"
+        max-height="150"
       ></v-img>
     </div>
   </v-card>
