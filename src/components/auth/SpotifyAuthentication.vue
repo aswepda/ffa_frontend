@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       client_id: "d5550bed36f64690a6d2ae32d26023bd",
-      scopes: "user-top-read",
+      scopes: "user-top-read playlist-modify-private",
       redirect_uri: "https://aswepda.surge.sh/#/",
       me: null,
     };
@@ -14,7 +14,7 @@ export default {
   methods: {
     async login() {
       let popup = window.open(
-        `https://accounts.spotify.com/authorize?client_id=${this.client_id}&response_type=code&redirect_uri=${encodeURIComponent(this.redirect_uri)}&scope=${this.scopes}&show_dialog=true`,
+        `https://accounts.spotify.com/authorize?client_id=${this.client_id}&response_type=code&redirect_uri=${encodeURIComponent(this.redirect_uri)}&scope=${encodeURIComponent(this.scopes)}&show_dialog=true`,
         "Login with Spotify",
         "width=800,height=600"
       );
