@@ -19,10 +19,12 @@ const Message = () => import("./content/Message.vue");
 const Spotify = () => import("./content/Spotify.vue");
 const Calendar = () => import("./content/Calendar.vue");
 const Speech = () => import("./content/Speech.vue");
+const Weather = () => import("./content/Weather.vue");
 
 export default {
   data: () => ({
     messages: [
+      /*
       {
         type: "message",
         own: true,
@@ -84,6 +86,14 @@ export default {
         text: "Ich habe die folgenden Termine in deinem Kalender gefunden! 📅",
       },
       {
+        type: "speech",
+        own: false,
+        id: 12,
+        text:
+          "Ich habe die folgenden Termine in deinem Kalender gefunden! Heute hast du nicht so viel zu tun.",
+        autoplay: true,
+      },
+      {
         type: "calendar",
         own: false,
         id: 9,
@@ -106,6 +116,36 @@ export default {
           },
         ],
       },
+      {
+        type: "message",
+        own: true,
+        id: 10,
+        text: "Wie ist denn das Wetter so?",
+      },
+      {
+        type: "message",
+        own: false,
+        id: 11,
+        text: "In Stuttgart ist es momentan Regnerisch bei etwa 12°C.",
+      },
+      {
+        type: "speech",
+        own: false,
+        id: 12,
+        text: "In Stuttgart ist es momentan regnerisch bei etwa 12°C.",
+        autoplay: false,
+      },
+      {
+        type: "weather",
+        own: false,
+        id: 13,
+        city: "Stuttgart",
+        icon: "10d",
+        temperature: 12,
+        windspeed: 5,
+        humidity: 13,
+        condition: "Regnerisch",
+      },*/
     ],
   }),
   methods: {
@@ -126,6 +166,9 @@ export default {
         case "calendar": {
           return Calendar;
         }
+        case "weather": {
+          return Weather;
+        }
         default: {
           return Message;
         }
@@ -134,10 +177,10 @@ export default {
     getProps(message) {
       switch (message.type.toLowerCase()) {
         case "speech": {
-          return { text: message.text };
+          return { text: message.text, autoplay: message.autoplay };
         }
         case "message": {
-          return { from: message.own ? "du" : "pda", date: new Date() };
+          return { from: message.own ? "du" : "pda", date: message.date || new Date() };
         }
         case "location": {
           return {
@@ -163,6 +206,16 @@ export default {
             openOnClick: true,
           };
         }
+        case "weather": {
+          return {
+            city: message.city || "Unbekannt",
+            icon: message.icon,
+            temperature: message.temperature,
+            windspeed: message.windspeed,
+            humidity: message.humidity,
+            condition: message.condition,
+          };
+        }
       }
     },
     getSlotData(message) {
@@ -178,9 +231,29 @@ export default {
         }
       }
     },
+    addMessage(message) {
+      if(message.type === 'message' && !('date' in message))
+        message['date'] = new Date();
+      if(!('id' in message))
+        message['id'] = Math.random()
+      this.messages.push(message);
+      if(message.type === 'message' && message.speak) {
+        let speechMessage = {...message};
+        speechMessage.text = speechMessage.text.replace(/[^\x20-\xFF]/g, ""); // Replaces non ascii-characters like emojis etc.
+        speechMessage.type = 'speech';
+        speechMessage['id'] = Math.random();
+        this.messages.push(speechMessage);
+      }
+    }
   },
 };
 </script>
 
 <style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>
