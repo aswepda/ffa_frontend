@@ -113,6 +113,7 @@ export default {
               Authorization: this.$globals.credentials,
             },
           });
+          this.$globals.setFirstName(accountResult.data.given_name);
           this.$globals.setEmail(accountResult.data.email);
           this.accountIcon = accountResult.data.picture;
         } catch (e) {
