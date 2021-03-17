@@ -7,13 +7,16 @@ export var globalStore = new Vue({
       email: "",
       drawer: null,
       credentials: '',
-      spotifyCredentials: ''
+      spotifyCredentials: '',
+      firstName: '',
+      notificationsEnabled: false
     }
   },
   created() {
     this.email = JSON.parse(window.localStorage.getItem('email'));
     this.credentials = JSON.parse(window.localStorage.getItem('credentials'));
     this.spotifyCredentials = JSON.parse(window.localStorage.getItem('spotifycredentials'))
+    this.notificationsEnabled = JSON.parse(window.localStorage.getItem('notificationsEnabled'))
   },
   computed: {
     activeNotifications() {
@@ -29,6 +32,9 @@ export var globalStore = new Vue({
   methods: {
     setDrawer(state) {
       this.drawer = state;
+    },
+    setFirstName(name) {
+      this.firstName = name
     },
     setEmail(email) {
       this.email = email;
@@ -50,6 +56,10 @@ export var globalStore = new Vue({
           notificationObj.active = false;
         }, timeout);
       }
+    },
+    setNotificationsEnabled(state) {
+      this.notificationsEnabled = state;
+      window.localStorage.setItem('notificationsEnabled', JSON.stringify(state))
     }
   },
 });
