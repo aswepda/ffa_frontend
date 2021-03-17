@@ -31,7 +31,9 @@
       </v-list>
       <template #append>
         <v-divider />
-        <v-text-field label="Backend" v-model="backendURL" class="mx-2 mt-3" outlined @keyup.enter="setBackend"/>
+        <v-text-field label="Backend" v-model="backendURL" class="mx-2 mt-3 mb-0" hide-details="auto" outlined @keyup.enter="setBackend"/>
+        <notification-manager class="mx-3 mb-4"/>
+        <v-divider />
         <v-list nav dense>
           <v-list-item @click="toggleTheme">
             <v-list-item-icon
@@ -68,6 +70,7 @@
 <script>
 import Account from "./components/Account.vue";
 import Debug from "./components/dialogs/Debug.vue";
+import NotificationManager from './components/NotificationManager.vue';
 import update from "./mixins/update";
 
 export default {
@@ -76,6 +79,7 @@ export default {
   components: {
     Account,
     Debug,
+    NotificationManager,
   },
   data: () => ({
     registrationDialog: false,
