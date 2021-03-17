@@ -14,7 +14,7 @@
           <v-img max-height="110" :src="weatherIcon" contain />
         </v-col>
       </v-row>
-      <v-row align="space-around">
+      <v-row align-content="space-around">
         <v-col>
           <div class="d-flex flex-column align-center">
             <img src="/img/weather/humidity.svg" height="40px"/>
@@ -65,7 +65,7 @@ export default {
     condition: String,
     now: {
       type: Date,
-      default: new Date()
+      default: () => {return new Date()}
     }
   },
   computed: {
