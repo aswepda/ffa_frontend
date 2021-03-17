@@ -37,81 +37,103 @@
         </Location>
       </v-row>
       <v-row justify="start" class="mb-4">
-        <weather icon="01d" temperature="20" city="Stuttgart" :humidity="28" windspeed="3" condition="Sonnig"/>
+        <weather
+          icon="01d"
+          :temperature=20
+          city="Stuttgart"
+          :humidity=28
+          :windspeed=3
+          condition="Sonnig"
+        />
       </v-row>
-      <v-row justify="start" align="stretch">
-        <v-col class="col-md-6">
-        <v-card color="#245535" dark elevation="12" height="100%">
-          <div class="d-flex flex-no-wrap justify-space-between">
-            <div>
-              <v-card-text class="pb-1">⭐ Empfohlen</v-card-text>
-              <v-card-title class="pt-0"> Sport 🏀 </v-card-title>
-              <v-card-subtitle>
-                Lust auf ein bisschen Sport? :)
-              </v-card-subtitle>
-              <v-card-actions class="card-actions">
-                <v-btn class="ml-2 mt-5 mb-1" outlined rounded small>
-                  Los geht's!
-                </v-btn>
-              </v-card-actions>
-            </div>
-            <v-img
-              contain
-              class="ma-3"
-              src="/img/test.png"
-              max-width="40%"
-              max-height="130"
-            ></v-img>
-          </div>
-        </v-card>
-        </v-col>
-        <v-col class="col-md-6">
-        <v-card color="#350A67" dark height="100%">
-          <div class="d-flex flex-no-wrap justify-space-between">
-            <div>
-              <v-card-title> Gute Nacht 🌃</v-card-title>
-              <v-card-subtitle>
-                Deine Abendroutine
-              </v-card-subtitle>
-              <v-card-actions class="card-actions">
-                <v-btn class="ml-2 mt-5 mb-1" outlined rounded small>
-                  Los geht's!
-                </v-btn>
-              </v-card-actions>
-            </div>
-            <v-img
-              contain
-              class="ma-3"
-              src="/img/sleep_cloud.png"
-              max-width="40%"
-              max-height="130"
-            ></v-img>
-          </div>
-        </v-card>
-        </v-col>
-      </v-row>
-      <v-row justify="start" class="mb-4" align="stretch">
-        <v-col class="col-md-6">
-          <Action imageURL="/img/morning.png" color="#F47458" title="Guten Morgen ☕">
-            Guten Morgen! Deine Routine für den Start in den Tag. :)
-          </Action>
-        </v-col>
-        <v-col class="col-md-6">
-          <Action imageURL="/img/eat.png" color="#365DA4" title="Essen 🥗">
-            Frühstück, Mittagessen oder Abendessen?<br>Deine Routine für jeden Hunger.
-          </Action>
-        </v-col>
-      </v-row>
+      <transition name="fade" mode="out-in">
+        <div class="actions" v-if="!morningRoutine" key="actions">
+          <v-row justify="start" align="stretch">
+            <v-col class="col-md-6">
+              <v-card color="#245535" dark elevation="12" height="100%">
+                <div class="d-flex flex-no-wrap justify-space-between">
+                  <div>
+                    <v-card-text class="pb-1">⭐ Empfohlen</v-card-text>
+                    <v-card-title class="pt-0"> Sport 🏀 </v-card-title>
+                    <v-card-subtitle>
+                      Lust auf ein bisschen Sport? :)
+                    </v-card-subtitle>
+                    <v-card-actions class="card-actions">
+                      <v-btn class="ml-2 mt-5 mb-1" outlined rounded small>
+                        Los geht's!
+                      </v-btn>
+                    </v-card-actions>
+                  </div>
+                  <v-img
+                    contain
+                    class="ma-3"
+                    src="/img/test.png"
+                    max-width="40%"
+                    max-height="130"
+                  ></v-img>
+                </div>
+              </v-card>
+            </v-col>
+            <v-col class="col-md-6">
+              <v-card color="#350A67" dark height="100%">
+                <div class="d-flex flex-no-wrap justify-space-between">
+                  <div>
+                    <v-card-title> Gute Nacht 🌃</v-card-title>
+                    <v-card-subtitle> Deine Abendroutine </v-card-subtitle>
+                    <v-card-actions class="card-actions">
+                      <v-btn class="ml-2 mt-5 mb-1" outlined rounded small>
+                        Los geht's!
+                      </v-btn>
+                    </v-card-actions>
+                  </div>
+                  <v-img
+                    contain
+                    class="ma-3"
+                    src="/img/sleep_cloud.png"
+                    max-width="40%"
+                    max-height="130"
+                  ></v-img>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-row justify="start" class="mb-4" align="stretch">
+            <v-col class="col-md-6">
+              <Action
+                imageURL="/img/morning.png"
+                color="#F47458"
+                title="Guten Morgen ☕"
+                @clicked="morningRoutine = true"
+              >
+                Guten Morgen! Deine Routine für den Start in den Tag. :)
+              </Action>
+            </v-col>
+            <v-col class="col-md-6">
+              <Action imageURL="/img/eat.png" color="#365DA4" title="Essen 🥗">
+                Frühstück, Mittagessen oder Abendessen?<br />Deine Routine für
+                jeden Hunger.
+              </Action>
+            </v-col>
+          </v-row>
+        </div>
+        <v-row v-else key="routine">
+          <good-morning @closed="morningRoutine = false"/>
+        </v-row>
+      </transition>
     </v-container>
   </div>
 </template>
 
 <script>
-import Action from '../components/usecases/ActionCard.vue';
+import Action from "../components/usecases/ActionCard.vue";
 import Location from "../components/content/Location.vue";
-import Weather from '../components/content/Weather.vue';
+import Weather from "../components/content/Weather.vue";
+import GoodMorning from "../components/usecases/GoodMorning.vue";
 export default {
-  components: { Location, Weather, Action },
+  data: () => ({
+    morningRoutine: false,
+  }),
+  components: { Location, Weather, Action, GoodMorning },
 };
 </script>
 
@@ -119,5 +141,12 @@ export default {
 .card-actions {
   position: absolute;
   bottom: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
