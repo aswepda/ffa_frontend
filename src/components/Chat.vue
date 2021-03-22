@@ -180,7 +180,10 @@ export default {
           return { text: message.text, autoplay: message.autoplay };
         }
         case "message": {
-          return { from: message.own ? "du" : "pda", date: message.date || new Date() };
+          return {
+            from: message.own ? "du" : "pda",
+            date: message.date || new Date(),
+          };
         }
         case "location": {
           return {
@@ -220,38 +223,34 @@ export default {
     },
     getSlotData(message) {
       switch (message.type.toLowerCase()) {
-        case "message": {
-          return message.text || "-";
-        }
+        case "message":
+        case "spotify":
         case "location": {
-          return message.text || "-";
-        }
-        case "spotify": {
           return message.text || "-";
         }
       }
     },
     addMessage(message) {
-      if(message.type === 'message' && !('date' in message))
-        message['date'] = new Date();
-      if(!('id' in message))
-        message['id'] = Math.random()
+      if (message.type === "message" && !("date" in message))
+        message["date"] = new Date();
+      if (!("id" in message)) message["id"] = Math.random();
       this.messages.push(message);
-      if(message.type === 'message' && message.speak) {
-        let speechMessage = {...message};
+      if (message.type === "message" && message.speak) {
+        let speechMessage = { ...message };
         speechMessage.text = speechMessage.text.replace(/[^\x20-\xFF]/g, ""); // Replaces non ascii-characters like emojis etc.
-        speechMessage.type = 'speech';
-        speechMessage['id'] = Math.random();
+        speechMessage.type = "speech";
+        speechMessage["id"] = Math.random();
         this.messages.push(speechMessage);
       }
-    }
+    },
   },
 };
 </script>
 
 <style>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
