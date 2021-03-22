@@ -6,7 +6,7 @@
       <v-row>
         <v-col cols="7" class="flex-grow-1 flex-shrink-0">
           <div class="d-flex align-start">
-            <div class="text-h1 text--primary">{{temperature ? temperature : '-'}}</div>
+            <div class="text-h1 text--primary">{{temperature ? temperatureFormatted : '-'}}</div>
             <div class="text-h4 text--primary font-weight-light">°C</div>
           </div>
         </v-col>
@@ -77,6 +77,9 @@ export default {
     },
     weatherIcon() {
       return `/img/weather/${weatherIcons[this.icon]}.svg`;
+    },
+    temperatureFormatted() {
+      return this.temperature.toFixed(2).replace('.',',');
     }
   }
 };

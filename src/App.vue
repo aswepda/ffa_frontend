@@ -54,7 +54,7 @@
     </v-main>
     <v-footer app absolute>
       <div class="mx-auto">
-        &copy; {{ new Date().getFullYear() }} <b>FFA</b> Team
+        &copy; {{ new Date().getFullYear() }} <strong>FFA</strong> Team
       </div>
     </v-footer>
     <v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
@@ -117,5 +117,8 @@ h4,
 h5,
 h6 {
   font-weight: 400;
+}
+.v-navigation-drawer {
+  overflow-y: auto
 }
 </style>

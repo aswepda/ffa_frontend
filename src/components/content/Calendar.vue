@@ -1,5 +1,5 @@
 <template>
-  <v-card height="450" :max-width="maximumWidth">
+  <v-card height="450" :max-width="maximumWidth" width="100%">
     <v-calendar
       class="pa-2"
       type="day"

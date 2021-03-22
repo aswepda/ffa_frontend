@@ -2,7 +2,7 @@
   <div class="notificationmanager">
     <v-switch
       @change="changeState"
-      v-model="enabled"
+      v-model="notificationsEnabled"
       label="Benachrichtigungen"
       :error-messages="errorMessages"
       hide-details="auto"
@@ -14,26 +14,26 @@
 <script>
 export default {
   data: () => ({
-    enabled: false,
+    notificationsEnabled: false,
     disallowed: false,
     unsupported: false,
     loading: false,
     interval: null,
+    registration: null,
     notifications: [
       {
-        hour:  20,
-        minute: 23,
-        route: "test",
-        message:
-          "Guten Morgen!\nKlicke hier um gleich zu deiner Morgen-Routine zu kommen!",
+        hour: 9,
+        minute: 0,
+        message: "Guten Morgen!\nDenke an deine heutige Morgen-Routine!",
+        icon: "/img/morning.png",
         lastHandled: null,
       },
     ],
   }),
-  created() {
+  async created() {
     if (this.$globals.notificationsEnabled) {
       if (this.allowed) {
-        this.enabled = true;
+        this.notificationsEnabled = true;
         this.startNotificationHandler();
       } else {
         this.$globals.setNotificationsEnabled(false);
@@ -50,12 +50,15 @@ export default {
         let notDate = new Date();
         notDate.setHours(notification.hour, notification.minute);
         if (
-          (curDate.valueOf() - notDate.valueOf() < 5 * 60 * 1000) &&
-            notification.lastHandled == null ||
-          curDate.valueOf() - notification.lastHandled > 10 * 60 * 1000
+          curDate.valueOf() - notDate.valueOf() < 5 * 60 * 1000 &&
+          curDate.valueOf() - notDate.valueOf() >= 0 &&
+          (notification.lastHandled == null ||
+            curDate.valueOf() - notification.lastHandled > 10 * 60 * 1000)
         ) {
           let notify = new Notification("FFA", {
             body: notification.message,
+            icon: notification.icon,
+            requireInteraction: true
           });
           notify.onclick = function () {
             parent.focus();
@@ -67,7 +70,7 @@ export default {
       }
     },
     async changeState() {
-      if (this.enabled) {
+      if (this.notificationsEnabled) {
         await this.requestPermissions();
         if (this.allowed) {
           this.startNotificationHandler();
@@ -76,33 +79,45 @@ export default {
         clearInterval(this.interval);
         this.interval = null;
       }
-      this.$globals.setNotificationsEnabled(this.enabled);
+      this.$globals.setNotificationsEnabled(this.notificationsEnabled);
     },
     async requestPermissions() {
       this.loading = true;
       if (!window.Notification) {
         console.log("Browser does not support notifications.");
         this.unsupported = true;
-        this.enabled = false;
+        this.notificationsEnabled = false;
       } else {
         if (Notification.permission !== "granted") {
-          let perm = await Notification.requestPermission();
-          if (perm === "granted") {
-            // show notification here
+          try {
+            let perm = await Notification.requestPermission();
+            if (perm === "granted") {
+              // show notification here
+              new Notification("FFA", {
+                body: "Benachrichtigungen aktiviert!",
+              });
+            } else {
+              console.log("User blocked notifications.");
+              this.disallowed = true;
+              this.notificationsEnabled = false;
+            }
+          } catch (err) {
+            this.notificationsEnabled = false;
+            this.unsupported = true;
+          } finally {
+            this.loading = false;
+          }
+        } else {
+          try {
             new Notification("FFA", {
               body: "Benachrichtigungen aktiviert!",
             });
-          } else {
-            console.log("User blocked notifications.");
-            this.disallowed = true;
-            this.enabled = false;
+          } catch (err) {
+            this.notificationsEnabled = false;
+            this.unsupported = true;
+          } finally {
+            this.loading = false;
           }
-          this.loading = false;
-        } else {
-          new Notification("FFA", {
-            body: "Benachrichtigungen aktiviert!",
-          });
-          this.loading = false;
         }
       }
     },
