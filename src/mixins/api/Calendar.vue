@@ -17,18 +17,18 @@ export default {
       return calendarEvents;
     },
     async getFreetime() {
-      let freeResult = await this.$http.get('calendar/lunch', {
+      let freeResult = await this.$http.get("calendar/lunch", {
         headers: {
-          Authorization: this.$globals.credentials
-        }
-      })
-      freeResult = freeResult.data.data.map(i => {
-        i['start'] = new Date(i['start']);
-        i['end'] = new Date(i['end']);
-        return i;
+          Authorization: this.$globals.credentials,
+        },
       });
-      return freeResult;
-    }
+      let data = freeResult.data.data;
+      if(data) {
+        data.start = new Date(data.start);
+        data.ende = new Date(data.ende);
+      }
+      return data;
+    },
   },
 };
 </script>
