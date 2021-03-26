@@ -53,7 +53,7 @@ export default {
           curDate.valueOf() - notDate.valueOf() < 5 * 60 * 1000 &&
           curDate.valueOf() - notDate.valueOf() >= 0 &&
           (notification.lastHandled == null ||
-            curDate.valueOf() - notification.lastHandled > 10 * 60 * 1000)
+            curDate.valueOf() - notification.lastHandled > 60 * 60 * 1000)
         ) {
           let notify = new Notification("FFA", {
             body: notification.message,
