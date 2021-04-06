@@ -8,7 +8,7 @@
       v-model="drawer"
       temporary
       app
-      src="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
+      src="/img/pda_background.jpg"
       dark
       height="100%"
     >
