@@ -50,7 +50,7 @@ export default {
     close() {
       this.$emit("closed");
     },
-    test() {
+    async test() {
       this.$emit("data", {
         type: "message",
         own: true,
@@ -62,21 +62,22 @@ export default {
         text: `Hey ${this.firstName}! Ich hoffe du hattest einen schönen Tag heute. 🌞`,
         speak: true,
       });
-            try {
+      try {
         let events = await this.getEvents("today");
         this.$emit("data", {
           type: "message",
           own: false,
           speak: true,
-          text: `Du hattest heute ${
-            events.length
-          } Termin${events.length != 1 ? "e" : ""}. ${
+          text: `Du hattest heute ${events.length} Termin${
+            events.length != 1 ? "e" : ""
+          }. ${
             events.length == 0
               ? "Du hast deine freie Zeit gut genutzt! 😊"
               : "Das war ein produktiver Tag! 💪"
           }`,
         });
-      } catch (ex) {
+      } catch (e) {
+        console.error(e);
       }
     },
     async weatherTomorrow() {
@@ -92,28 +93,28 @@ export default {
       });
       try {
         let weather = await this.getWeather("tomorrow");
+        let cityName = (await this.getWeather("now")).name;
+        let weatherTomorrow = weather.daily[0]
         this.$emit("data", {
           type: "message",
           own: false,
-          text: `In ${weather.name} werden es ${(
-            weather.main.temp - 273.15
-          )
+          text: `In ${cityName} werden es ${(weatherTomorrow.temp.day - 273.15)
             .toFixed(2)
             .toString()
             .replace(".", ",")}°C bei ${
-            weather.main.humidity
+            weatherTomorrow.humidity
           }% Luftfeuchtigkeit. ⛅`,
           speak: true,
         });
         this.$emit("data", {
           type: "weather",
           own: false,
-          city: weather.name,
-          icon: weather.weather[0].icon,
-          temperature: weather.main.temp - 273.15,
-          windspeed: weather.wind.speed,
-          humidity: weather.main.humidity,
-          condition: weather.weather[0].description,
+          city: cityName,
+          icon: weatherTomorrow.weather[0].icon,
+          temperature: weatherTomorrow.temp.day - 273.15,
+          windspeed: weatherTomorrow.wind_speed,
+          humidity: weatherTomorrow.humidity,
+          condition: weatherTomorrow.weather[0].description,
         });
       } catch (ex) {
         this.$emit("data", {
@@ -145,7 +146,7 @@ export default {
         text: "Ich schaue kurz für dich nach! 🔎📅",
       });
       try {
-        let events = await this.getEvents("today");
+        let events = await this.getEvents("tomorrow");
         this.$emit("data", {
           type: "message",
           own: false,
@@ -191,7 +192,16 @@ export default {
           "Natürlich! Ich suche kurz nach einer passenden Playlist für dich. 🎶",
       });
 
-      let searchTerm = ["evening", "abends", "night", "nachts", "ruhig", "calm", "schlaf", "sleep"];
+      let searchTerm = [
+        "evening",
+        "abends",
+        "night",
+        "nachts",
+        "ruhig",
+        "calm",
+        "schlaf",
+        "sleep",
+      ];
       let playlistResult = await this.getPlaylists(
         searchTerm[Math.floor(Math.random() * searchTerm.length)]
       );
