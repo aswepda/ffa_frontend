@@ -193,9 +193,6 @@ export default {
       });
 
       let searchTerm = [
-        "evening",
-        "abends",
-        "night",
         "nachts",
         "ruhig",
         "calm",
@@ -221,7 +218,7 @@ export default {
       });
     },
     async wakeUpTime() {
-      this.$emit("data", {
+      this.$emit("data", { 
         type: "message",
         own: true,
         text: "Wie lange kann ich morgen schlafen? 😴",
