@@ -240,7 +240,7 @@ export default {
             type: "message",
             own: false,
             speak: true,
-            text: `Dein erster Termin heißt ${events[0].title} und beginnt um ${events[0].start}`,
+            text: `Dein erster Termin heißt ${events[0].title} und beginnt um ${events[0].start.getHours()}:${events[0].start.getMinutes()} Uhr!`,
           });
         } else {
           this.$emit("data", {
