@@ -1,7 +1,7 @@
 <template>
   <v-card :max-width="maximumWidth">
     <v-card-subtitle>{{ from }} am {{ datum.toLocaleString() }}</v-card-subtitle>
-    <v-card-text class="text--primary"><slot /></v-card-text>
+    <v-card-text class="text--primary prewhite"><slot /></v-card-text>
   </v-card>
 </template>
 
@@ -21,4 +21,7 @@ export default {
 </script>
 
 <style>
+.prewhite {
+  white-space: pre-line;
+}
 </style>
