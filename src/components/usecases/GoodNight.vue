@@ -50,7 +50,7 @@ export default {
     close() {
       this.$emit("closed");
     },
-    test() {
+    async test() {
       this.$emit("data", {
         type: "message",
         own: true,
@@ -62,22 +62,21 @@ export default {
         text: `Hey ${this.firstName}! Ich hoffe du hattest einen schönen Tag heute. 🌞`,
         speak: true,
       });
-            try {
+      try {
         let events = await this.getEvents("today");
         this.$emit("data", {
           type: "message",
           own: false,
           speak: true,
-          text: `Du hattest heute ${
-            events.length
-          } Termin${events.length != 1 ? "e" : ""}. ${
+          text: `Du hattest heute ${events.length} Termin${
+            events.length != 1 ? "e" : ""
+          }. ${
             events.length == 0
               ? "Du hast deine freie Zeit gut genutzt! 😊"
               : "Das war ein produktiver Tag! 💪"
           }`,
         });
-      } catch (ex) {
-      }
+      } catch (ex) {}
     },
     async weatherTomorrow() {
       this.$emit("data", {
@@ -95,9 +94,7 @@ export default {
         this.$emit("data", {
           type: "message",
           own: false,
-          text: `In ${weather.name} werden es ${(
-            weather.main.temp - 273.15
-          )
+          text: `In ${weather.name} werden es ${(weather.main.temp - 273.15)
             .toFixed(2)
             .toString()
             .replace(".", ",")}°C bei ${
@@ -145,7 +142,7 @@ export default {
         text: "Ich schaue kurz für dich nach! 🔎📅",
       });
       try {
-        let events = await this.getEvents("today");
+        let events = await this.getEvents("tomorrow");
         this.$emit("data", {
           type: "message",
           own: false,
@@ -191,7 +188,16 @@ export default {
           "Natürlich! Ich suche kurz nach einer passenden Playlist für dich. 🎶",
       });
 
-      let searchTerm = ["evening", "abends", "night", "nachts", "ruhig", "calm", "schlaf", "sleep"];
+      let searchTerm = [
+        "evening",
+        "abends",
+        "night",
+        "nachts",
+        "ruhig",
+        "calm",
+        "schlaf",
+        "sleep",
+      ];
       let playlistResult = await this.getPlaylists(
         searchTerm[Math.floor(Math.random() * searchTerm.length)]
       );
@@ -210,49 +216,48 @@ export default {
         uri: randomPlaylist.uri,
       });
     },
-    /*
     async wakeUpTime() {
       this.$emit("data", {
         type: "message",
         own: true,
-        text: "Wie lange kann ich morgen schlafen?",
+        text: "Wie lange kann ich morgen schlafen? 😴",
       });
-      this.$emit("data", {
-        type: "message",
-        own: false,
-        text: `Warte kurz, während ich das für dich nachschlage..`,
-      });
-      if (!this.$globals.getSetting("workplace")) {
+
+      if (!this.$globals.credentials) {
         this.$emit("data", {
           type: "message",
           own: false,
-          text: `Du hast leider keinen Arbeitsplatz eingestellt. Stelle einen in den Einstellungen ein um dir die Dauer zum Arbeitsplatz anzeigen zu lassen!`,
-        })
+          text:
+            "Du scheinst nicht mit Google angemeldet zu sein! Damit ich deine Kalendereinträge abrufen kann musst du dich mit Google anmelden.",
+        });
         return;
       }
       try {
-        let mode = this.$globals.getSetting("directionMode") || "driving";
-        let workplace = this.$globals.getSetting("workplace")
-        let direction = await this.getDirection(workplace, mode);
-        let hours = Math.floor(direction.value / 60 / 60);
-        let minutes = Math.round((direction.value / 60) % 60);
-        console.log(hours, direction);
-        this.$emit("data", {
-          type: "message",
-          own: false,
-          text: `Zu deiner Arbeitsstelle ${workplace} würdest du momentan ${this.parseDirectionText(mode)} etwa ${hours} Stunden und ${minutes} Minuten benötigen!`,
-          speak: true,
-        });
+        let events = await this.getEvents("tomorrow");
+        if (events.length) {
+          this.$emit("data", {
+            type: "message",
+            own: false,
+            speak: true,
+            text: `Dein erster Termin heißt ${events[0].title} und beginnt um ${events[0].start}`,
+          });
+        } else {
+          this.$emit("data", {
+            type: "message",
+            own: false,
+            speak: true,
+            text: `Morgen hast du keine Termine, du kannst ausschlafen!`,
+          });
+        }
       } catch (ex) {
         this.$emit("data", {
           type: "message",
           own: false,
           text:
-            "Ich hatte leider Probleme bei deiner Standortabfrage! Prüfe bitte ob du diese Anwendung dazu berechtigt hast deinen Standort abzurufen! 🚧",
+            "Etwas ist schiefgelaufen.. Bitte versuche deinen Google-Account nochmal ab- und anzumelden.",
         });
       }
     },
-    */
     notifySpotifyLogin() {
       if (!this.$globals.spotifyCredentials) {
         this.$emit("data", {
