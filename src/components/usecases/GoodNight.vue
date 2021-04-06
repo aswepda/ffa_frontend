@@ -76,7 +76,9 @@ export default {
               : "Das war ein produktiver Tag! 💪"
           }`,
         });
-      } catch (ex) {}
+      } catch (e) {
+        console.error(e);
+      }
     },
     async weatherTomorrow() {
       this.$emit("data", {
@@ -91,26 +93,28 @@ export default {
       });
       try {
         let weather = await this.getWeather("tomorrow");
+        let cityName = (await this.getWeather("now")).name;
+        let weatherTomorrow = weather.daily[0]
         this.$emit("data", {
           type: "message",
           own: false,
-          text: `In ${weather.name} werden es ${(weather.main.temp - 273.15)
+          text: `In ${cityName} werden es ${(weatherTomorrow.temp.day - 273.15)
             .toFixed(2)
             .toString()
             .replace(".", ",")}°C bei ${
-            weather.main.humidity
+            weatherTomorrow.humidity
           }% Luftfeuchtigkeit. ⛅`,
           speak: true,
         });
         this.$emit("data", {
           type: "weather",
           own: false,
-          city: weather.name,
-          icon: weather.weather[0].icon,
-          temperature: weather.main.temp - 273.15,
-          windspeed: weather.wind.speed,
-          humidity: weather.main.humidity,
-          condition: weather.weather[0].description,
+          city: cityName,
+          icon: weatherTomorrow.weather[0].icon,
+          temperature: weatherTomorrow.temp.day - 273.15,
+          windspeed: weatherTomorrow.wind_speed,
+          humidity: weatherTomorrow.humidity,
+          condition: weatherTomorrow.weather[0].description,
         });
       } catch (ex) {
         this.$emit("data", {
