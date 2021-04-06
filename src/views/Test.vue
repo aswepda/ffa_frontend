@@ -72,7 +72,6 @@ Deine Routine für jeden Hunger.`,
       });
     },
     scrollToBottom() {
-      console.log(this.getPageHeight());
       this.$vuetify.goTo(this.getPageHeight(), {
         duration: 300,
         easing: "easeInOutCubic",
