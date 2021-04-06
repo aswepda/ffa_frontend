@@ -1,5 +1,5 @@
 <template>
-  <v-card color="#F47458" dark height="100%">
+  <v-card color="#350A67" dark height="100%">
     <v-card-title
       ><span>Guten Abend!</span><v-spacer></v-spacer
       ><v-btn icon @click="close" class="ml-auto"
@@ -7,7 +7,7 @@
       ></v-card-title
     >
     <v-card-text
-      >Guten Abend {{ firstName }}! Für deinen perfekten Start in den Tag habe
+      >Guten Abend {{ firstName }}! Für deinen Abend habe
       ich dir einige Dinge vorbereitet. 😊</v-card-text
     >
     <v-card-actions>
