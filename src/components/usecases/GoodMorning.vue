@@ -178,7 +178,7 @@ export default {
       this.$emit("data", {
         type: "message",
         own: false,
-        text: `Ich habe die Playlist ${randomPlaylist.name} von ${randomPlaylist.owner} gefunden! \nIch hoffe sie gefällt dir. 🎵🐦🌞`,
+        text: `Ich habe die Playlist ${randomPlaylist.name} von ${randomPlaylist.owner} gefunden! Ich hoffe sie gefällt dir. 🎵🐦🌞`,
         speak: true,
       });
       this.$emit("data", {
@@ -244,7 +244,7 @@ export default {
   },
   computed: {
     firstName() {
-      return this.$globals.firstName || "du";
+      return this.$globals.name || "du";
     },
   },
   mixins: [WeatherVue, CalendarVue, SpotifyVue, DirectionsVue],

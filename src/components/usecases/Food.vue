@@ -16,16 +16,6 @@
         <v-btn class="ml-2 mb-1" outlined rounded small @click="nextBreak">
           <v-icon left small>mdi-clock</v-icon>Wann kann ich Pause machen?
         </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="weather"
-          ><v-icon left small>mdi-weather-partly-cloudy</v-icon>Wie wird denn
-          das Wetter?
-        </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="calendar"
-          ><v-icon left small>mdi-calendar</v-icon>Was steht an?
-        </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyMorning">
-          <v-icon left small>mdi-spotify</v-icon>Etwas Morgenmusik bitte!
-        </v-btn>
       </div>
     </v-card-actions>
   </v-card>
@@ -125,6 +115,9 @@ export default {
         default:
           return "";
       }
+    },
+    firstName() {
+      return this.$globals.name || "du";
     },
   },
   mixins: [CalendarVue],

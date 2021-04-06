@@ -277,7 +277,7 @@ export default {
   },
   computed: {
     firstName() {
-      return this.$globals.firstName || "du";
+      return this.$globals.name || "du";
     },
   },
   mixins: [WeatherVue, CalendarVue, SpotifyVue, DirectionsVue],

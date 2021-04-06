@@ -29,6 +29,13 @@ export var globalStore = new Vue({
     },
     spotifyLoggedIn() {
       return !!this.spotifyCredentials
+    },
+    name() {
+      if ('name' in this.settings && this.settings.name) {
+        return this.settings.name;
+      } else {
+        return this.firstName;
+      }
     }
   },
   methods: {
