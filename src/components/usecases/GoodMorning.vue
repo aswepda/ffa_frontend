@@ -213,7 +213,6 @@ export default {
         let direction = await this.getDirection(workplace, mode);
         let hours = Math.floor(direction.value / 60 / 60);
         let minutes = Math.round((direction.value / 60) % 60);
-        console.log(hours, direction);
         this.$emit("data", {
           type: "message",
           own: false,
