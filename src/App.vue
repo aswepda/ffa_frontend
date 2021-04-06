@@ -21,12 +21,17 @@
           <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>
           <v-list-item-title> Home </v-list-item-title>
         </v-list-item>
-        <v-list-item to="/about">
+        <!--<v-list-item to="/about">
           <v-list-item-icon><v-icon>mdi-information</v-icon></v-list-item-icon>
           <v-list-item-title> About </v-list-item-title>
+        </v-list-item>-->
+        <v-list-item to="/agent">
+          <v-list-item-icon><v-icon>mdi-face-agent</v-icon></v-list-item-icon>
+          <v-list-item-title> Agent </v-list-item-title>
         </v-list-item>
-        <v-list-item to="/test">
-          <v-list-item-title> Test </v-list-item-title>
+        <v-list-item to="/settings">
+          <v-list-item-icon><v-icon>mdi-cog</v-icon></v-list-item-icon>
+          <v-list-item-title> Einstellungen </v-list-item-title>
         </v-list-item>
       </v-list>
       <template #append>

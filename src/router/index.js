@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Test from '../views/Test.vue'
-import AudioTest from '../views/AudioTest.vue'
-import CalendarTest from '../views/CalendarTest.vue'
+import Agent from '../views/Agent.vue'
 
 Vue.use(VueRouter)
 
@@ -22,9 +20,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/test',
-    name: 'Test',
-    component: Test,
+    path: '/agent',
+    name: 'Agent',
+    component: Agent,
     meta: {
       keepAlive: true
     }
@@ -32,12 +30,17 @@ const routes = [
   {
     path: '/audiotest',
     name: 'Audiotest',
-    component: AudioTest
+    component: () => import(/* webpackChunkName: "tests" */ '../views/AudioTest.vue')
   },
   {
     path: '/calendartest',
     name: 'CalendarTest',
-    component: CalendarTest
+    component: () => import(/* webpackChunkName: "tests" */ '../views/CalendarTest.vue')
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import(/* webpackChunkName: "settings" */ '../views/Settings.vue')
   }
 ]
 
