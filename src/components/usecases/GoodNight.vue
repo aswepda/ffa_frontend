@@ -7,8 +7,8 @@
       ></v-card-title
     >
     <v-card-text
-      >Guten Abend {{ firstName }}! Für deinen Abend habe
-      ich dir einige Dinge vorbereitet. 😊</v-card-text
+      >Guten Abend {{ firstName }}! Für deinen Abend habe ich dir einige Dinge
+      vorbereitet. 😊</v-card-text
     >
     <v-card-actions>
       <div class="d-flex flex-wrap">
@@ -56,19 +56,14 @@ export default {
         own: true,
         text: "Guten Abend!",
       });
-      this.$emit("data", {
-        type: "message",
-        own: false,
-        text: `Hey ${this.firstName}! Ich hoffe du hattest einen schönen Tag heute. 🌞`,
-        speak: true,
-      });
       try {
         let events = await this.getEvents("today");
         this.$emit("data", {
           type: "message",
           own: false,
           speak: true,
-          text: `Du hattest heute ${events.length} Termin${
+          text: `Hey ${this.firstName}! Ich hoffe du hattest einen schönen Tag heute. 🌞 \n
+          Du hattest heute ${events.length} Termin${
             events.length != 1 ? "e" : ""
           }. ${
             events.length == 0
@@ -78,6 +73,12 @@ export default {
         });
       } catch (e) {
         console.error(e);
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text: `Hey ${this.firstName}! Ich hoffe du hattest einen schönen Tag heute. 🌞`,
+          speak: true,
+        });
       }
     },
     async weatherTomorrow() {
@@ -94,7 +95,7 @@ export default {
       try {
         let weather = await this.getWeather("tomorrow");
         let cityName = (await this.getWeather("now")).name;
-        let weatherTomorrow = weather.daily[0]
+        let weatherTomorrow = weather.daily[1];
         this.$emit("data", {
           type: "message",
           own: false,
@@ -192,13 +193,7 @@ export default {
           "Natürlich! Ich suche kurz nach einer passenden Playlist für dich. 🎶",
       });
 
-      let searchTerm = [
-        "nachts",
-        "ruhig",
-        "calm",
-        "schlaf",
-        "sleep",
-      ];
+      let searchTerm = ["nachts", "ruhig", "calm", "schlaf", "sleep"];
       let playlistResult = await this.getPlaylists(
         searchTerm[Math.floor(Math.random() * searchTerm.length)]
       );
@@ -218,7 +213,7 @@ export default {
       });
     },
     async wakeUpTime() {
-      this.$emit("data", { 
+      this.$emit("data", {
         type: "message",
         own: true,
         text: "Wie lange kann ich morgen schlafen? 😴",
@@ -240,7 +235,9 @@ export default {
             type: "message",
             own: false,
             speak: true,
-            text: `Dein erster Termin heißt ${events[0].title} und beginnt um ${events[0].start.getHours()}:${events[0].start.getMinutes()} Uhr!`,
+            text: `Dein erster Termin heißt ${
+              events[0].title
+            } und beginnt um ${events[0].start.getHours()}:${events[0].start.getMinutes()} Uhr!`,
           });
         } else {
           this.$emit("data", {
