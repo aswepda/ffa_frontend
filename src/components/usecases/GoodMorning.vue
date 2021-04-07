@@ -25,6 +25,10 @@
         <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyMorning">
           <v-icon left small>mdi-spotify</v-icon>Etwas Morgenmusik bitte!
         </v-btn>
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="dirWork">
+          <v-icon left small>mdi-subway-variant</v-icon>Wie lange brauche ich
+          zur Arbeit?
+        </v-btn>
       </div>
     </v-card-actions>
   </v-card>
@@ -32,8 +36,10 @@
 
 <script>
 import CalendarVue from "../../mixins/api/Calendar.vue";
-import SpotifyVue from '../../mixins/api/Spotify.vue';
+import DirectionsVue from "../../mixins/api/Directions.vue";
+import SpotifyVue from "../../mixins/api/Spotify.vue";
 import WeatherVue from "../../mixins/api/Weather.vue";
+
 export default {
   methods: {
     close() {
@@ -151,35 +157,79 @@ export default {
       this.$emit("data", {
         type: "message",
         own: true,
-        text: "Ich würde mich über ein bisschen Morgenmusik freuen!"
+        text: "Ich würde mich über ein bisschen Morgenmusik freuen!",
       });
 
-      if(this.notifySpotifyLogin()) return;
+      if (this.notifySpotifyLogin()) return;
 
       this.$emit("data", {
         type: "message",
         own: false,
-        text: "Natürlich! Ich suche kurz nach einer passenden Playlist für dich. 🎶"
+        text:
+          "Natürlich! Ich suche kurz nach einer passenden Playlist für dich. 🎶",
       });
 
-      let searchTerm = ['guten morgen', 'morning', 'good morning']
-      let playlistResult = await this.getPlaylists(searchTerm[Math.floor(Math.random() * searchTerm.length)]);
-      let randomPlaylist = playlistResult[Math.floor(Math.random() * playlistResult.length)];
+      let searchTerm = ["guten morgen", "morning", "good morning"];
+      let playlistResult = await this.getPlaylists(
+        searchTerm[Math.floor(Math.random() * searchTerm.length)]
+      );
+      let randomPlaylist =
+        playlistResult[Math.floor(Math.random() * playlistResult.length)];
       this.$emit("data", {
         type: "message",
         own: false,
-        text: `Ich habe die Playlist ${randomPlaylist.name} von ${randomPlaylist.owner} gefunden!\nIch hoffe sie gefällt dir. 🎵🐦🌞`,
-        speak: true
+        text: `Ich habe die Playlist ${randomPlaylist.name} von ${randomPlaylist.owner} gefunden! Ich hoffe sie gefällt dir. 🎵🐦🌞`,
+        speak: true,
       });
       this.$emit("data", {
         type: "spotify",
         own: false,
         title: randomPlaylist.name,
-        uri: randomPlaylist.uri
-      })
+        uri: randomPlaylist.uri,
+      });
+    },
+    async dirWork() {
+      this.$emit("data", {
+        type: "message",
+        own: true,
+        text: "Wie lange brauche ich gerade zur Arbeit?",
+      });
+      this.$emit("data", {
+        type: "message",
+        own: false,
+        text: `Warte kurz, während ich das für dich nachschlage..`,
+      });
+      if (!this.$globals.getSetting("workplace")) {
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text: `Du hast leider keinen Arbeitsplatz eingestellt. Stelle einen in den Einstellungen ein um dir die Dauer zum Arbeitsplatz anzeigen zu lassen!`,
+        })
+        return;
+      }
+      try {
+        let mode = this.$globals.getSetting("directionMode") || "driving";
+        let workplace = this.$globals.getSetting("workplace")
+        let direction = await this.getDirection(workplace, mode);
+        let hours = Math.floor(direction.value / 60 / 60);
+        let minutes = Math.round((direction.value / 60) % 60);
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text: `Zu deiner Arbeitsstelle ${workplace} würdest du momentan ${this.parseDirectionText(mode)} etwa ${hours} Stunden und ${minutes} Minuten benötigen!`,
+          speak: true,
+        });
+      } catch (ex) {
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text:
+            "Ich hatte leider Probleme bei deiner Standortabfrage! Prüfe bitte ob du diese Anwendung dazu berechtigt hast deinen Standort abzurufen! 🚧",
+        });
+      }
     },
     notifySpotifyLogin() {
-      if(!this.$globals.spotifyCredentials) {
+      if (!this.$globals.spotifyCredentials) {
         this.$emit("data", {
           type: "message",
           own: false,
@@ -189,14 +239,14 @@ export default {
         return true;
       }
       return false;
-    }
+    },
   },
   computed: {
     firstName() {
-      return this.$globals.firstName || "du";
+      return this.$globals.name || "du";
     },
   },
-  mixins: [WeatherVue, CalendarVue, SpotifyVue],
+  mixins: [WeatherVue, CalendarVue, SpotifyVue, DirectionsVue],
 };
 </script>
 

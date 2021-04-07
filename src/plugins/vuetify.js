@@ -6,8 +6,18 @@ import '@mdi/font/css/materialdesignicons.min.css'
 Vue.use(Vuetify);
 
 export default new Vuetify({
-    lang: {
-      locales: { de },
-      current: 'de',
+  lang: {
+    locales: { de },
+    current: 'de',
+  },
+  theme: {
+    themes: {
+      light: {
+        primary: '#3B462D'
+      },
+      dark: {
+        primary: '#3B462D'
+      }
     }
+  }
 });

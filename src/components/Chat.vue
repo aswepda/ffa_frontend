@@ -235,7 +235,7 @@ export default {
         message["date"] = new Date();
       if (!("id" in message)) message["id"] = Math.random();
       this.messages.push(message);
-      if (message.type === "message" && message.speak) {
+      if (message.type === "message" && message.speak && this.$globals.getSetting('speechEnabled') != false) {
         let speechMessage = { ...message };
         speechMessage.text = speechMessage.text.replace(/[^\x20-\xFF]/g, ""); // Replaces non ascii-characters like emojis etc.
         speechMessage.type = "speech";

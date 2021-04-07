@@ -9,7 +9,8 @@ export var globalStore = new Vue({
       credentials: '',
       spotifyCredentials: '',
       firstName: '',
-      notificationsEnabled: false
+      notificationsEnabled: false,
+      settings: {}
     }
   },
   created() {
@@ -17,6 +18,7 @@ export var globalStore = new Vue({
     this.credentials = JSON.parse(window.localStorage.getItem('credentials'));
     this.spotifyCredentials = JSON.parse(window.localStorage.getItem('spotifycredentials'))
     this.notificationsEnabled = JSON.parse(window.localStorage.getItem('notificationsEnabled'))
+    this.settings = JSON.parse(window.localStorage.getItem('settings')) || {}
   },
   computed: {
     activeNotifications() {
@@ -27,9 +29,25 @@ export var globalStore = new Vue({
     },
     spotifyLoggedIn() {
       return !!this.spotifyCredentials
+    },
+    name() {
+      if ('name' in this.settings && this.settings.name) {
+        return this.settings.name;
+      } else {
+        return this.firstName;
+      }
     }
   },
   methods: {
+    setSetting(setting, value) {
+      this.settings[setting] = value;
+      window.localStorage.setItem('settings', JSON.stringify(this.settings))
+    },
+    getSetting(setting) {
+      if (setting in this.settings)
+        return this.settings[setting]
+      return null;
+    },
     setDrawer(state) {
       this.drawer = state;
     },

@@ -13,24 +13,6 @@
         </v-list-item-content>
       </v-list-item>
       <div v-if="!$globals.loggedIn">
-        <v-list-item
-          @click="
-            loginDialog = true;
-            closeDrawer();
-          "
-        >
-          <v-list-item-icon><v-icon>mdi-login</v-icon></v-list-item-icon>
-          <v-list-item-title> Login </v-list-item-title>
-        </v-list-item>
-        <v-list-item
-          @click="
-            registrationDialog = true;
-            closeDrawer();
-          "
-        >
-          <v-list-item-icon><v-icon>mdi-account-plus</v-icon></v-list-item-icon>
-          <v-list-item-title> Registrieren </v-list-item-title>
-        </v-list-item>
         <v-list-item @click="authGoogle()">
           <v-list-item-icon><v-icon>mdi-google</v-icon></v-list-item-icon>
           <v-list-item-title> Anmelden mit Google </v-list-item-title>

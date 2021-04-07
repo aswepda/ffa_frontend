@@ -28,6 +28,25 @@ export default {
         icon: "/img/morning.png",
         lastHandled: null,
       },
+      {
+        hour: 11,
+        minute: 30,
+        message: "Guten Mittag!\nVergesse deine Mittagspause nicht! 😊",
+        icon: "/img/eat.png",
+        lastHandled: null
+      },
+      {
+        hour: 16,
+        minute: 30,
+        message: "Lust auf ein bisschen Sport?\nSchau doch mal in deine Sport Routine!",
+        icon: "/img/test.png"
+      },
+      {
+        hour: 21,
+        minute: 0,
+        message: "Guten Abend!\nGehst du bald ins Bett? Dann werfe doch nochmal einen Blick in deine Gute Nacht Routine! 🌃",
+        icon: "/img/sleep_cloud.png"
+      }
     ],
   }),
   async created() {
@@ -50,10 +69,10 @@ export default {
         let notDate = new Date();
         notDate.setHours(notification.hour, notification.minute);
         if (
-          curDate.valueOf() - notDate.valueOf() < 5 * 60 * 1000 &&
+          curDate.valueOf() - notDate.valueOf() < 15 * 60 * 1000 &&
           curDate.valueOf() - notDate.valueOf() >= 0 &&
-          (notification.lastHandled == null ||
-            curDate.valueOf() - notification.lastHandled > 10 * 60 * 1000)
+          (!notification.lastHandled ||
+            notification.lastHandled && curDate.valueOf() - notification.lastHandled.valueOf() > 60 * 60 * 1000)
         ) {
           let notify = new Notification("FFA", {
             body: notification.message,
