@@ -69,10 +69,10 @@ export default {
         let notDate = new Date();
         notDate.setHours(notification.hour, notification.minute);
         if (
-          curDate.valueOf() - notDate.valueOf() < 5 * 60 * 1000 &&
+          curDate.valueOf() - notDate.valueOf() < 15 * 60 * 1000 &&
           curDate.valueOf() - notDate.valueOf() >= 0 &&
-          (!!notification.lastHandled ||
-            curDate.valueOf() - notification.lastHandled > 60 * 60 * 1000)
+          (!notification.lastHandled ||
+            notification.lastHandled && curDate.valueOf() - notification.lastHandled.valueOf() > 60 * 60 * 1000)
         ) {
           let notify = new Notification("FFA", {
             body: notification.message,
