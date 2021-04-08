@@ -16,7 +16,7 @@
           <v-icon left small>mdi-message</v-icon>Guten Morgen!
         </v-btn>
         <v-btn class="ml-2 mb-1" outlined rounded small @click="weather"
-          ><v-icon left small>mdi-weather-partly-cloudy</v-icon>Wie wird denn
+          ><v-icon left small>mdi-weather-partly-cloudy</v-icon>Wie ist denn
           das Wetter?
         </v-btn>
         <v-btn class="ml-2 mb-1" outlined rounded small @click="calendar"
