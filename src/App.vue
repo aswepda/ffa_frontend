@@ -61,7 +61,7 @@
       <div class="mx-auto text-center">
         &copy; {{ new Date().getFullYear() }} <strong>FFA</strong> Team
         <br>
-        <span class="font-weight-light text-body-2">Release {{gitHash}}</span>
+        <span class="font-weight-light text-body-2">Release <a :href="releaseURL" target="_blank">{{gitHash}}</a></span>
       </div>
     </v-footer>
     <v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
@@ -105,6 +105,9 @@ export default {
     },
     gitHash() {
       return process.env.VUE_APP_GIT_HASH;
+    },
+    releaseURL() {
+      return `https://github.com/aswepda/pda_frontend/commit/${this.gitHash}`;
     }
   },
   methods: {
