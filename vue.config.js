@@ -10,7 +10,7 @@ module.exports = {
     themeColor: '#3B462D',
     msTileColor: '#000000',
     iconPaths: {
-      msTileImage: 'img/icons/mstile-150x150.png'
+      msTileImage: 'img/icons/android-chrome-192x192.png'
     }
   },
 }
