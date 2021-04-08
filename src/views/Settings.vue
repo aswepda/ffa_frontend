@@ -1,7 +1,7 @@
 <template>
   <div class="settings">
     <h1>Einstellungen</h1>
-    <v-text-field v-model="settings.name" label="Name (überschreibt durch social login erhaltene Namen)" placeholder="-" type="text"></v-text-field>
+    <v-text-field v-model="settings.name" label="Name (überschreibt durch social login erhaltene Namen)" type="text"></v-text-field>
     <v-text-field v-model="settings.workplace" label="Arbeitsplatz" placeholder="DHBW Stuttgart" type="text"></v-text-field>
     <v-select v-model="settings.directionMode" :items="transitModes" label="Hauptverkehrsmittel"></v-select>
     <v-switch label="Sprachausgabe" v-model="settings.speechEnabled"></v-switch>
