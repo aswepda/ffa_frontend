@@ -14,12 +14,12 @@
 </template>
 
 <script>
-const Location = () => import("./content/Location.vue"); // lazy chunk splitting
-const Message = () => import("./content/Message.vue");
-const Spotify = () => import("./content/Spotify.vue");
-const Calendar = () => import("./content/Calendar.vue");
-const Speech = () => import("./content/Speech.vue");
-const Weather = () => import("./content/Weather.vue");
+const Location = () => import(/* webpackChunkName: "location" */ "./content/Location.vue"); // lazy chunk splitting
+const Message = () => import(/* webpackChunkName: "message" */"./content/Message.vue");
+const Spotify = () => import(/* webpackChunkName: "spotify" */"./content/Spotify.vue");
+const Calendar = () => import(/* webpackChunkName: "calendar" */"./content/Calendar.vue");
+const Speech = () => import(/* webpackChunkName: "speech" */"./content/Speech.vue");
+const Weather = () => import(/* webpackChunkName: "weather" */"./content/Weather.vue");
 
 export default {
   data: () => ({
