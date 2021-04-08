@@ -59,7 +59,7 @@
     </v-main>
     <v-footer app absolute>
       <div class="mx-auto">
-        &copy; {{ new Date().getFullYear() }} <strong>FFA</strong> Team
+        &copy; {{ new Date().getFullYear() }} <strong>FFA</strong> Team<br>Release {{gitHash}}
       </div>
     </v-footer>
     <v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
@@ -101,6 +101,9 @@ export default {
         this.$globals.setDrawer(value);
       },
     },
+    gitHash() {
+      return process.env.VUE_APP_GIT_HASH;
+    }
   },
   methods: {
     async toggleTheme() {
