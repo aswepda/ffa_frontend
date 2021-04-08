@@ -58,8 +58,10 @@
       </v-container>
     </v-main>
     <v-footer app absolute>
-      <div class="mx-auto">
-        &copy; {{ new Date().getFullYear() }} <strong>FFA</strong> Team<br>Release {{gitHash}}
+      <div class="mx-auto text-center">
+        &copy; {{ new Date().getFullYear() }} <strong>FFA</strong> Team
+        <br>
+        <span class="font-weight-light text-body-2">Release {{gitHash}}</span>
       </div>
     </v-footer>
     <v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
