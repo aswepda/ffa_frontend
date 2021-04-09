@@ -31,28 +31,28 @@ export default {
   data: () => ({
     actions: [
       {
-        imageURL: "/img/test.png",
+        imageURL: require("@/assets/img/test.png"),
         color: "#245535",
         title: "Sport 🏀",
         key: "sport",
         content: "Lust auf ein bisschen Sport? :)",
       },
       {
-        imageURL: "/img/sleep_cloud.png",
+        imageURL: require("@/assets/img/sleep_cloud.png"),
         color: "#350A67",
         title: "Gute Nacht 🌃",
         key: "night",
         content: "Gute Nacht 🌃",
       },
       {
-        imageURL: "/img/morning.png",
+        imageURL: require("@/assets/img/morning.png"),
         color: "#F47458",
         title: "Guten Morgen ☕",
         key: "morning",
         content: "Guten Morgen! Deine Routine für den Start in den Tag. :)",
       },
       {
-        imageURL: "/img/eat.png",
+        imageURL: require("@/assets/img/eat.png"),
         color: "#365DA4",
         title: "Essen 🥗",
         key: "eat",

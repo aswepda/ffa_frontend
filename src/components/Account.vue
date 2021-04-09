@@ -34,8 +34,6 @@
         <v-list-item-title> Logout Spotify </v-list-item-title>
       </v-list-item>
     </v-list>
-    <Registration v-model="registrationDialog" />
-    <Login v-model="loginDialog" />
     <spotify-authentication ref="spotify" />
   </div>
 </template>

@@ -44,7 +44,7 @@ export default {
     crunch() {
       this.applestate = !this.applestate;
       if (!this.applestate) {
-        new Audio("/FOODEat_Apple crunched 1 (ID 1113)_BSB.mp3").play();
+        new Audio("@/FOODEat_Apple crunched 1 (ID 1113)_BSB.mp3").play();
       }
     },
   },

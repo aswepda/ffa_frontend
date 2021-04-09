@@ -8,7 +8,7 @@
       v-model="drawer"
       temporary
       app
-      src="/img/pda_background.jpg"
+      src="@/assets/img/pda_background.jpg"
       dark
       height="100%"
     >
