@@ -42,13 +42,10 @@
 
 <script>
 import SpotifyAuthentication from "./auth/SpotifyAuthentication.vue";
-import Login from "./dialogs/Login.vue";
-import Registration from "./dialogs/Registration.vue";
+
 export default {
-  components: { Registration, Login, SpotifyAuthentication },
+  components: { SpotifyAuthentication },
   data: () => ({
-    registrationDialog: false,
-    loginDialog: false,
     accountIcon: "",
   }),
   computed: {

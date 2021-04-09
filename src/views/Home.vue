@@ -69,38 +69,17 @@
         </v-card>
       </v-col>
     </v-row>
-    <div class="d-flex mt-4 justify-center">
-      <v-btn @click="crunch"><v-icon left>{{appleIcon}}</v-icon> APFEL</v-btn>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Home",
-  data: () => ({
-    applestate: true
-  }),
   computed: {
     loggedIn() {
       return this.$globals.loggedIn;
     },
-    appleIcon() {
-      if (this.applestate) {
-        return "mdi-food-apple"
-      } else {
-        return "mdi-food-apple-outline"
-      }
-    }
   },
-  methods: {
-    crunch() {
-      this.applestate = !this.applestate
-      if(!this.applestate) {
-        new Audio("/FOODEat_Apple crunched 1 (ID 1113)_BSB.mp3").play();
-      }
-    }
-  }
 };
 </script>
 
