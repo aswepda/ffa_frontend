@@ -1,6 +1,8 @@
 <template>
   <div class="agenttest">
     <chat ref="chat" class="mt-3" />
+    <transition name="fade" mode="out-in"><hr v-if="messagesInChat" class="my-4">
+    <h1 class="text-h4 mb-3" v-if="!messagesInChat">Deine Routinen</h1></transition>
     <transition name="fade" mode="out-in">
       <div class="actions" v-if="!routine" key="actions">
         <v-row justify="start">
@@ -59,13 +61,15 @@ export default {
 Deine Routine für jeden Hunger.`,
       },
     ],
-    routine: ''
+    routine: '',
+    messagesInChat: false
   }),
   methods: {
     getPageHeight() {
       return document.body.scrollHeight;
     },
     addMessage(message) {
+      this.messagesInChat = true;
       this.$refs.chat.addMessage(message);
       this.scrollToBottom();
       this.$nextTick(function () {
@@ -121,7 +125,7 @@ Deine Routine für jeden Hunger.`,
 <style>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.2s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;

@@ -6,7 +6,7 @@
         <h2 class="text-subtitle-1">Dein persönlicher Agent für deinen ganzen Tag egal ob früh oder spät!</h2>
       </v-col>
       <v-col sm=12 md=5>
-        <v-img src="/img/hikedude.png" contain max-width="60%"></v-img>
+        <v-img src="/img/hikedude.png" class="mx-auto" contain max-width="60%"></v-img>
       </v-col>
     </v-row>
     <v-btn to="/agent" block class="mb-6" color="primary">Loslegen!</v-btn>
@@ -72,19 +72,12 @@
     <div class="d-flex mt-4 justify-center">
       <v-btn @click="crunch"><v-icon left>{{appleIcon}}</v-icon> APFEL</v-btn>
     </div>
-    <Welcome v-if="!loggedIn" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import Welcome from "@/components/Welcome.vue";
-
 export default {
   name: "Home",
-  components: {
-    Welcome,
-  },
   data: () => ({
     applestate: true
   }),
