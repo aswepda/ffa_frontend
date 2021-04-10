@@ -16,6 +16,10 @@
         <v-btn class="ml-2 mb-1" outlined rounded small @click="nextBreak">
           <v-icon left small>mdi-clock</v-icon>Wann kann ich Pause machen?
         </v-btn>
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="weather">
+          <v-icon left small>mdi-weather-partly-cloudy</v-icon>Wie wird denn
+          das Wetter zur Mittagspause?
+        </v-btn>
       </div>
     </v-card-actions>
   </v-card>
@@ -23,10 +27,56 @@
 
 <script>
 import CalendarVue from "../../mixins/api/Calendar.vue";
+import WeatherVue from "../../mixins/api/Weather.vue";
 export default {
   methods: {
     close() {
       this.$emit("closed");
+    },
+        async weather() {
+      this.$emit("data", {
+        type: "message",
+        own: true,
+        text: "Wie ist denn das Wetter so?",
+      });
+      this.$emit("data", {
+        type: "message",
+        own: false,
+        text: "Ich schaue kurz für dich nach! 🔎",
+      });
+      try {
+        let weather = await this.getWeather("later");
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text: `In ${weather.name} wird das Wetter mittags ${(
+            weather.main.temp - 273.15
+          )
+            .toFixed(2)
+            .toString()
+            .replace(".", ",")}°C bei ${
+            weather.main.humidity
+          }% Luftfeuchtigkeit. ⛅`,
+          speak: true,
+        });
+        this.$emit("data", {
+          type: "weather",
+          own: false,
+          city: weather.name,
+          icon: weather.weather[0].icon,
+          temperature: weather.main.temp - 273.15,
+          windspeed: weather.wind.speed,
+          humidity: weather.main.humidity,
+          condition: weather.weather[0].description,
+        });
+      } catch (ex) {
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text:
+            "Ich hatte leider Probleme bei deiner Standortabfrage! Prüfe bitte ob du diese Anwendung dazu berechtigt hast deinen Standort abzurufen! 🚧",
+        });
+      }
     },
     async nextBreak() {
       this.$emit("data", {
