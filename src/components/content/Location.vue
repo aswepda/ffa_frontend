@@ -16,7 +16,7 @@
           {{ rating }}<span v-if="ratingCount"> ({{ ratingCount }})</span>
         </div>
       </v-row>
-      <div class="mt-0">
+      <div class="mt-0 locationText">
         <slot />
       </div>
     </v-card-text>
@@ -49,5 +49,8 @@ export default {
 <style scoped>
 .v-card {
   width: 100%;
+}
+.locationText {
+  white-space: pre;
 }
 </style>

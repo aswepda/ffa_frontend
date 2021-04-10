@@ -20,6 +20,25 @@
           <v-icon left small>mdi-weather-partly-cloudy</v-icon>Wie wird denn
           das Wetter zur Mittagspause?
         </v-btn>
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="places">
+          <v-icon left small>mdi-weather-partly-cloudy</v-icon>Zeige mir Restaurant in meiner Nähe
+        </v-btn>
+      </div>
+    </v-card-actions>
+    <v-card-actions v-if="selection">
+      <div class="d-flex flex-wrap" >
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('italienisches Restaurant')">
+         <v-icon left small>mdi-pizza</v-icon>Italienisch
+        </v-btn>
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('chinesisches Restaurant')">
+         <v-icon left small>mdi-noodles</v-icon>Chinesisch
+        </v-btn>
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('mexikanisch Restaurant')">
+         <v-icon left small>mdi-noodles</v-icon>Chinesisch
+        </v-btn>
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('chinesisches Restaurant')">
+         <v-icon left small>mdi-noodles</v-icon>Chinesisch
+        </v-btn>
       </div>
     </v-card-actions>
   </v-card>
@@ -28,6 +47,7 @@
 <script>
 import CalendarVue from "../../mixins/api/Calendar.vue";
 import WeatherVue from "../../mixins/api/Weather.vue";
+import PlacesVue from "../../mixins/api/Places.vue";
 export default {
   methods: {
     close() {
@@ -45,7 +65,7 @@ export default {
         text: "Ich schaue kurz für dich nach! 🔎",
       });
       try {
-        let weather = await this.getWeather("later");
+        let weather = await this.getWeather("now");
         this.$emit("data", {
           type: "message",
           own: false,
@@ -77,6 +97,40 @@ export default {
             "Ich hatte leider Probleme bei deiner Standortabfrage! Prüfe bitte ob du diese Anwendung dazu berechtigt hast deinen Standort abzurufen! 🚧",
         });
       }
+    },
+    async places(){
+      this.$emit("data", {
+        type: "message",
+        own: true,
+        text: "Zeige mir ein Restaurant in meiner Nähe an.",
+      });
+      this.$emit("data", {
+        type: "message",
+        own: false,
+        text: "Auf was hättest du heute Lust?",
+      });
+    this.selection = true
+    },
+    async search_places(type){
+      let result = await this.getPlacesNearby(type)
+      let rResult = result[Math.floor(Math.random() * result.length > 5 ? 5 : result.length)];
+      this.selection = false
+       this.$emit("data", {
+        type: "message",
+        own: false,
+        text: "Ich habe " + rResult.name + " für dich gefunden, lass es dir schmecken",
+        speak: true,
+      });
+      this.$emit("data", {
+        type: "location",
+        lat: rResult.geometry.location.lat,
+        lon: rResult.geometry.location.lng,
+        name: rResult.name,
+        rating: rResult.rating,
+        ratingCount: rResult.user_ratings_total,
+        url: rResult.url,
+        text: `📞: ${rResult.formatted_phone_number ? rResult.formatted_phone_number: 'N/A'}\n💲: ${rResult.price_level ? rResult.price_level: 'N/A'}/4`,
+      })
     },
     async nextBreak() {
       this.$emit("data", {
@@ -170,7 +224,11 @@ export default {
       return this.$globals.name || "du";
     },
   },
-  mixins: [CalendarVue],
+  mixins: [CalendarVue, WeatherVue, PlacesVue],
+
+  data: ()=>({
+    selection : false
+  })
 };
 </script>
 
