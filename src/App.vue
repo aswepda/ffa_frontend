@@ -65,10 +65,16 @@
       </div>
     </v-footer>
     <v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
-      Ein neue Version ist verfügbar!
+      Eine neue Version ist verfügbar!
       <template #action>
         <v-btn text @click="refreshApp" :loading="initiatedRefresh" outlined> Aktualisieren </v-btn>
       </template>
+    </v-snackbar>
+    <v-snackbar bottom multi-line :value="!online" :timeout="-1" color="error">
+      <div class="d-flex align-center">
+        <div><v-icon left>mdi-network-strength-off</v-icon></div>
+        <div>Du scheinst offline zu sein..<br>Manche Funktionen werden wahrscheinlich nicht wie erwartet funktionieren.</div>
+      </div>
     </v-snackbar>
     <debug v-model="debugDialog"/>
   </v-app>
@@ -93,6 +99,7 @@ export default {
     authCode: "",
     backendURL: "https://pda-backend.herokuapp.com",
     debugDialog: false,
+    online: navigator.onLine
   }),
   computed: {
     drawer: {
@@ -117,6 +124,14 @@ export default {
     setBackend() {
       this.$http.defaults.baseURL = this.backendURL;
     },
+    updateOnlineStatus(e) {
+        const { type } = e;
+        this.online = type === 'online';
+    }
+  },
+  mounted() {
+    window.addEventListener('online', this.updateOnlineStatus);
+    window.addEventListener('offline', this.updateOnlineStatus);
   },
   mixins: [update],
 };
