@@ -22,7 +22,7 @@ Vue.prototype.$http = axios.create({
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   },
-  timeout: 10000
+  timeout: 20000
 })
 
 Vue.prototype.$globals = globalStore
