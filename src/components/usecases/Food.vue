@@ -21,7 +21,7 @@
           das Wetter zur Mittagspause?
         </v-btn>
         <v-btn class="ml-2 mb-1" outlined rounded small @click="places">
-          <v-icon left small>mdi-weather-partly-cloudy</v-icon>Zeige mir Restaurant in meiner Nähe
+          <v-icon left small>mdi-chef-hat</v-icon>Zeige mir Restaurant in meiner Nähe
         </v-btn>
       </div>
     </v-card-actions>
@@ -29,10 +29,10 @@
       <v-card-actions>
         <div class="d-flex flex-wrap" >
           <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('italienisches Restaurant')">
-          <v-icon left small>mdi-pizza</v-icon>Italienisch
+          <v-icon left small>mdi-pizza</v-icon>Italienisches Restaurant
           </v-btn>
           <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('mexikanisch Restaurant')">
-          <v-icon left small>mdi-chili-mild</v-icon>Mexikanisch
+          <v-icon left small>mdi-chili-mild</v-icon>Mexikanisches Restaurant
           </v-btn>
           <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('Fast Food')">
           <v-icon left small>mdi-food</v-icon>Fast Food
@@ -148,7 +148,7 @@ export default {
         rating: rResult.rating,
         ratingCount: rResult.user_ratings_total,
         url: rResult.url,
-        text: `📞: ${rResult.formatted_phone_number ? rResult.formatted_phone_number: 'N/A'}\n💲: ${rResult.price_level ? rResult.price_level: 'N/A'}/4`,
+        text: `📞: ${rResult.formatted_phone_number ? rResult.formatted_phone_number: '-'}\n💲: ${rResult.price_level ? rResult.price_level: '-'}/4`,
       })
       try {
         let mode = this.$globals.getSetting("directionMode") || "driving";
