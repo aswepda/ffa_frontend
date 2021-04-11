@@ -1,31 +1,57 @@
 <template>
-  <v-card color="#F47458" dark height="100%">
+  <v-card color="#245535" dark height="100%">
     <v-card-title
-      ><span>Sport!</span><v-spacer></v-spacer
+      ><span>Sport 🏀</span><v-spacer></v-spacer
       ><v-btn icon @click="close" class="ml-auto"
         ><v-icon>mdi-close</v-icon></v-btn
       ></v-card-title
     >
     <v-card-text
-      >Hey Sportsfreund! Bereit für ein bisschen Sport? 😊</v-card-text
+      >Hey Sportsfreund! Bereit für ein bisschen Bewegung? 💪</v-card-text
     >
-    <v-card-actions>
+    <v-card-actions v-if="!selection">
       <div class="d-flex flex-wrap">
         <v-btn class="ml-2 mb-1" outlined rounded small @click="weather"
           ><v-icon left small>mdi-message</v-icon>Schlag mir etwas Sport vor!
         </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyMorning">
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyWorkout">
           <v-icon left small>mdi-spotify</v-icon>Etwas Sportmusik bitte!
         </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="dirWork">
-          <v-icon left small>mdi-subway-variant</v-icon>Wie lange brauche ich
-          bis in Gym?
-        </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="dirWork">
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="places">
           <v-icon left small>mdi-map-marker</v-icon>Sportangebote in meiner Nähe
         </v-btn>
       </div>
     </v-card-actions>
+    <div v-if="selection">
+      <v-card-actions>
+        <div class="d-flex flex-wrap" >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('schwimmbad')">
+          <v-icon left small>mdi-swim</v-icon>Schwimmbad
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('golfplatz')">
+          <v-icon left small>mdi-golf</v-icon>Golfplatz
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('kletterhalle')">
+          <v-icon left small>mdi-carabiner</v-icon>Kletterhalle
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('fitnessstudio')">
+          <v-icon left small>mdi-dumbbell</v-icon>Fitnessstudio
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selection=false">
+          <v-icon left small>mdi-arrow-left</v-icon>Zurück
+          </v-btn>
+        </div>
+      </v-card-actions>
+      <v-card-actions>
+        <div class="d-flex">
+          <v-text-field dense outlined v-model="search" label="eigene Suche" class="mx-2">
+          </v-text-field>
+          <v-btn outlined rounded @click="search_places(search)" v-if="search">
+          <v-icon left small>mdi-magnify</v-icon>{{search || "eigene Suche"}}
+          </v-btn>
+        </div>
+          </v-card-actions>
+        </div>
   </v-card>
 </template>
 
@@ -86,7 +112,7 @@ export default {
           });
         }
         else {
-          var goodWeatherActivities = ['Geh doch eine Runde joggen!', 'Zeit für eine tolle Radtour!', 'Ab auf den Golfplatz'];
+          var goodWeatherActivities = ['Geh doch eine Runde joggen!', 'Zeit für eine tolle Radtour!', 'Ab auf den Golfplatz!'];
           var randomInt2 = Math.floor(Math.random() * goodWeatherActivities.length);
           this.$emit("data", {
             type: "message",
@@ -104,7 +130,7 @@ export default {
         });
       }
     },
-    async spotifyMorning() {
+    async spotifyWorkout() {
       this.$emit("data", {
         type: "message",
         own: true,
@@ -139,35 +165,51 @@ export default {
         uri: randomPlaylist.uri,
       });
     },
-    async dirWork() {
+    async places(){
       this.$emit("data", {
         type: "message",
         own: true,
-        text: "Wie lange brauche ich gerade zur Arbeit?",
+        text: "Zeige mir Sportangebote in meiner Nähe an.",
       });
       this.$emit("data", {
         type: "message",
         own: false,
-        text: `Warte kurz, während ich das für dich nachschlage..`,
+        text: "Wie willst du dich sportlich betätigen?",
       });
-      if (!this.$globals.getSetting("workplace")) {
-        this.$emit("data", {
-          type: "message",
-          own: false,
-          text: `Du hast leider keinen Arbeitsplatz eingestellt. Stelle einen in den Einstellungen ein um dir die Dauer zum Arbeitsplatz anzeigen zu lassen!`,
-        })
-        return;
-      }
+    this.selection = true
+    },
+    async search_places(type){
+      this.$emit("data", {
+        type: "message",
+        own: false,
+        text: "Ich schaue kurz für dich nach! 🔎",
+      });
+      let result = await this.getPlacesNearby(type)
+      let rResult = result[Math.floor(Math.random() * (result.length > 5 ? 5 : result.length))];
+      let latitude = rResult.geometry.location.lat;
+      let longitude = rResult.geometry.location.lng;
+      this.selection = false;
+      this.$emit("data", {
+        type: "location",
+        lat: rResult.geometry.location.lat,
+        lon: rResult.geometry.location.lng,
+        name: rResult.name,
+        rating: rResult.rating,
+        ratingCount: rResult.user_ratings_total,
+        url: rResult.url,
+        text: `📞: ${rResult.formatted_phone_number ? rResult.formatted_phone_number: '-'}\n💲: ${rResult.price_level ? rResult.price_level: '-'}/4`,
+      })
       try {
         let mode = this.$globals.getSetting("directionMode") || "driving";
-        let workplace = this.$globals.getSetting("workplace")
-        let direction = await this.getDirection(workplace, mode);
+        let destination = `${latitude},${longitude}`
+        let direction = await this.getDirection(destination, mode);
         let hours = Math.floor(direction.value / 60 / 60);
         let minutes = Math.round((direction.value / 60) % 60);
         this.$emit("data", {
           type: "message",
           own: false,
-          text: `Zu deiner Arbeitsstelle ${workplace} würdest du momentan ${this.parseDirectionText(mode)} etwa ${hours} Stunden und ${minutes} Minuten benötigen!`,
+          text: `Ich habe ${rResult.name} für dich gefunden. 
+          Zu ${rResult.name} würdest du momentan ${this.parseDirectionText(mode)} etwa ${hours} Stunden und ${minutes} Minuten benötigen!`,
           speak: true,
         });
       } catch (ex) {
@@ -198,6 +240,11 @@ export default {
     },
   },
   mixins: [WeatherVue, PlacesVue, SpotifyVue, DirectionsVue],
+
+  data: ()=>({
+    selection : false,
+    search : ""
+  })
 };
 </script>
 
