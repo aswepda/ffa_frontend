@@ -30,14 +30,14 @@
         <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('italienisches Restaurant')">
          <v-icon left small>mdi-pizza</v-icon>Italienisch
         </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('chinesisches Restaurant')">
-         <v-icon left small>mdi-noodles</v-icon>Chinesisch
-        </v-btn>
         <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('mexikanisch Restaurant')">
-         <v-icon left small>mdi-noodles</v-icon>Chinesisch
+         <v-icon left small>mdi-chili-mild</v-icon>Mexikanisch
         </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('chinesisches Restaurant')">
-         <v-icon left small>mdi-noodles</v-icon>Chinesisch
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('Fast Food')">
+         <v-icon left small>mdi-food</v-icon>Fast Food
+        </v-btn>
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('Bäcker')">
+         <v-icon left small>mdi-baguette</v-icon>Bäcker
         </v-btn>
       </div>
     </v-card-actions>
@@ -48,6 +48,7 @@
 import CalendarVue from "../../mixins/api/Calendar.vue";
 import WeatherVue from "../../mixins/api/Weather.vue";
 import PlacesVue from "../../mixins/api/Places.vue";
+import DirectionsVue from "../../mixins/api/Directions.vue";
 export default {
   methods: {
     close() {
@@ -112,8 +113,15 @@ export default {
     this.selection = true
     },
     async search_places(type){
+      this.$emit("data", {
+        type: "message",
+        own: false,
+        text: "Ich schaue kurz für dich nach! 🔎",
+      });
       let result = await this.getPlacesNearby(type)
-      let rResult = result[Math.floor(Math.random() * result.length > 5 ? 5 : result.length)];
+      let rResult = result[Math.floor(Math.random() * (result.length > 5 ? 5 : result.length))];
+      let latitude = rResult.geometry.location.lat;
+      let longitude = rResult.geometry.location.lng;
       this.selection = false
        this.$emit("data", {
         type: "message",
@@ -131,6 +139,26 @@ export default {
         url: rResult.url,
         text: `📞: ${rResult.formatted_phone_number ? rResult.formatted_phone_number: 'N/A'}\n💲: ${rResult.price_level ? rResult.price_level: 'N/A'}/4`,
       })
+      try {
+        let mode = this.$globals.getSetting("directionMode") || "driving";
+        let destination = `${latitude},${longitude}`
+        let direction = await this.getDirection(destination, mode);
+        let hours = Math.floor(direction.value / 60 / 60);
+        let minutes = Math.round((direction.value / 60) % 60);
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text: `Zu diesem Restaurant würdest du momentan ${this.parseDirectionText(mode)} etwa ${hours} Stunden und ${minutes} Minuten benötigen!`,
+          speak: true,
+        });
+      } catch (ex) {
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text:
+            "Ich hatte leider Probleme bei deiner Standortabfrage! Prüfe bitte ob du diese Anwendung dazu berechtigt hast deinen Standort abzurufen! 🚧",
+        });
+      }
     },
     async nextBreak() {
       this.$emit("data", {
@@ -224,13 +252,12 @@ export default {
       return this.$globals.name || "du";
     },
   },
-  mixins: [CalendarVue, WeatherVue, PlacesVue],
+  mixins: [CalendarVue, WeatherVue, PlacesVue, DirectionsVue],
 
   data: ()=>({
     selection : false
   })
 };
 </script>
-
 <style>
 </style>
