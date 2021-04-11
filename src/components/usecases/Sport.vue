@@ -99,7 +99,7 @@ export default {
           humidity: weather.main.humidity,
           condition: weather.weather[0].description,
         });
-        if (weather.weather[0].id >= 800) {
+        if (weather.weather[0].id < 800) {
           var badWeatherActivities = ['Ab ins Fitnessstudio!', 'Zeit fürs Hallenbad!', 'Perfekt für die Kletterhalle!'];
           var randomInt = Math.floor(Math.random() * badWeatherActivities.length);
           this.$emit("data", {
