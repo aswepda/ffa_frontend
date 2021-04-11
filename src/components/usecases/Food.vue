@@ -25,22 +25,33 @@
         </v-btn>
       </div>
     </v-card-actions>
-    <v-card-actions v-if="selection">
-      <div class="d-flex flex-wrap" >
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('italienisches Restaurant')">
-         <v-icon left small>mdi-pizza</v-icon>Italienisch
-        </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('mexikanisch Restaurant')">
-         <v-icon left small>mdi-chili-mild</v-icon>Mexikanisch
-        </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('Fast Food')">
-         <v-icon left small>mdi-food</v-icon>Fast Food
-        </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('Bäcker')">
-         <v-icon left small>mdi-baguette</v-icon>Bäcker
-        </v-btn>
-      </div>
-    </v-card-actions>
+    <div v-if="selection">
+      <v-card-actions>
+        <div class="d-flex flex-wrap" >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('italienisches Restaurant')">
+          <v-icon left small>mdi-pizza</v-icon>Italienisch
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('mexikanisch Restaurant')">
+          <v-icon left small>mdi-chili-mild</v-icon>Mexikanisch
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('Fast Food')">
+          <v-icon left small>mdi-food</v-icon>Fast Food
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('Bäcker')">
+          <v-icon left small>mdi-baguette</v-icon>Bäcker
+          </v-btn>
+        </div>
+      </v-card-actions>
+      <v-card-actions>
+        <div class="d-flex">
+          <v-text-field dense outlined v-model="search" label="eigene Suche" class="mx-2">
+          </v-text-field>
+          <v-btn outlined rounded @click="search_places(search)" v-if="search">
+          <v-icon left small>mdi-magnify</v-icon>{{search || "eigene Suche"}}
+          </v-btn>
+        </div>
+          </v-card-actions>
+        </div>
   </v-card>
 </template>
 
@@ -255,7 +266,8 @@ export default {
   mixins: [CalendarVue, WeatherVue, PlacesVue, DirectionsVue],
 
   data: ()=>({
-    selection : false
+    selection : false,
+    search : ""
   })
 };
 </script>
