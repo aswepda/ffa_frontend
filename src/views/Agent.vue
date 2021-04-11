@@ -24,10 +24,11 @@
 import Chat from "../components/Chat.vue";
 import GoodMorning from "../components/usecases/GoodMorning.vue";
 import GoodNight from "../components/usecases/GoodNight.vue";
-import Food from "../components/usecases/Food.vue"
+import Food from "../components/usecases/Food.vue";
+import Sport from "../components/usecases/Sport.vue";
 import Action from "../components/usecases/ActionCard.vue";
 export default {
-  components: { Chat, GoodMorning, GoodNight, Action, Food },
+  components: { Chat, GoodMorning, GoodNight, Action, Food, Sport },
   data: () => ({
     actions: [
       {
@@ -114,6 +115,8 @@ Deine Routine für jeden Hunger.`,
           return Food;
         case "night":
           return GoodNight;
+        case "sport":
+          return Sport;
         default:
           return "";
       }
