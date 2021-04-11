@@ -11,7 +11,7 @@
       >Hey {{ firstName }}! Ich bin dir beim Planen deiner nächsten Mahlzeit
       gerne behilflich! 😊</v-card-text
     >
-    <v-card-actions>
+    <v-card-actions v-if="!selection">
       <div class="d-flex flex-wrap">
         <v-btn class="ml-2 mb-1" outlined rounded small @click="nextBreak">
           <v-icon left small>mdi-clock</v-icon>Wann kann ich Pause machen?
@@ -21,7 +21,7 @@
           das Wetter zur Mittagspause?
         </v-btn>
         <v-btn class="ml-2 mb-1" outlined rounded small @click="places">
-          <v-icon left small>mdi-chef-hat</v-icon>Zeige mir Restaurant in meiner Nähe
+          <v-icon left small>mdi-chef-hat</v-icon>Zeige mir ein Restaurant in meiner Nähe
         </v-btn>
       </div>
     </v-card-actions>
@@ -39,6 +39,9 @@
           </v-btn>
           <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('Bäcker')">
           <v-icon left small>mdi-baguette</v-icon>Bäcker
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selection=false">
+          <v-icon left small>mdi-arrow-left</v-icon>Zurück
           </v-btn>
         </div>
       </v-card-actions>
