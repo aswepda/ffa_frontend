@@ -1,7 +1,7 @@
 <template>
   <v-card :max-width="maximumWidth">
     <v-card-title> {{city}} </v-card-title>
-    <v-card-subtitle> {{weekday}}, {{time}}, {{condition}}</v-card-subtitle>
+    <v-card-subtitle> {{date}}, {{condition}}</v-card-subtitle>
     <v-card-text>
       <v-row>
         <v-col cols="7" class="flex-grow-1 flex-shrink-0">
@@ -66,7 +66,8 @@ export default {
     now: {
       type: Date,
       default: () => {return new Date()}
-    }
+    },
+    dateString: String
   },
   computed: {
     weekday() {
@@ -74,6 +75,9 @@ export default {
     },
     time() {
       return this.now.toLocaleString(window.navigator.language, {hour: 'numeric'})
+    },
+    date() {
+      return this.dateString || `${this.weekday}, ${this.time}`
     },
     weatherIcon() {
       return require(`@/assets/img/weather/${weatherIcons[this.icon]}.svg`);

@@ -217,6 +217,7 @@ export default {
             windspeed: message.windspeed,
             humidity: message.humidity,
             condition: message.condition,
+            dateString: message.dateString || null
           };
         }
       }
