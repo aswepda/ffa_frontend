@@ -9,7 +9,7 @@
     <v-card-text
       >Hey Sportsfreund! Bereit für ein bisschen Bewegung? 💪</v-card-text
     >
-    <v-card-actions v-if="!selection">
+    <v-card-actions v-if="!selection && !question">
       <div class="d-flex flex-wrap">
         <v-btn class="ml-2 mb-1" outlined rounded small @click="weather"
           ><v-icon left small>mdi-message</v-icon>Schlag mir etwas Sport vor!
@@ -19,6 +19,16 @@
         </v-btn>
         <v-btn class="ml-2 mb-1" outlined rounded small @click="places">
           <v-icon left small>mdi-map-marker</v-icon>Sportangebote in meiner Nähe
+        </v-btn>
+      </div>
+    </v-card-actions>
+    <v-card-actions v-if="question">
+      <div class="d-flex flex-wrap">
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places(activity)">
+        <v-icon left small>mdi-check-bold</v-icon>Ja!
+        </v-btn>
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="question=false">
+          <v-icon left small>mdi-close-thick</v-icon>Nein danke!
         </v-btn>
       </div>
     </v-card-actions>
@@ -66,19 +76,6 @@ export default {
     close() {
       this.$emit("closed");
     },
-    test() {
-      this.$emit("data", {
-        type: "message",
-        own: true,
-        text: "Hey FFA! Schlag mir etwas Sport vor!",
-      });
-      this.$emit("data", {
-        type: "message",
-        own: false,
-        text: `Guten Morgen ${this.firstName}! Ich hoffe du hast heute einen schönen Tag. 🌞`,
-        speak: true,
-      });
-    },
     async weather() {
       this.$emit("data", {
         type: "message",
@@ -102,7 +99,7 @@ export default {
           humidity: weather.main.humidity,
           condition: weather.weather[0].description,
         });
-        if (weather.weather[0].id < 800) {
+        if (weather.weather[0].id >= 800) {
           var badWeatherActivities = ['Ab ins Fitnessstudio!', 'Zeit fürs Hallenbad!', 'Perfekt für die Kletterhalle!'];
           var randomInt = Math.floor(Math.random() * badWeatherActivities.length);
           this.$emit("data", {
@@ -110,15 +107,52 @@ export default {
           own: false,
           text: `Das Wetter sieht aktuell nicht so gut aus. ${badWeatherActivities[randomInt]}`,
           });
+          if (badWeatherActivities[randomInt].includes('Fitnessstudio')) {
+            this.activity = 'fitnessstudio';
+            this.$emit("data", {
+              type: "message",
+            own: false,
+            text: "Soll ich für dich nach einem Fitnessstudio in deiner Nähe schauen?",
+            });
+            this.question = true;
+          } else if (badWeatherActivities[randomInt].includes('Hallenbad')) {
+            this.activity = 'hallenbad';
+            this.$emit("data", {
+              type: "message",
+            own: false,
+            text: "Soll ich für dich nach einem Hallenbad in deiner Nähe suchen?",
+            });
+            this.question = true;
+          } else if (badWeatherActivities[randomInt].includes('Kletterhalle')) {
+            this.activity = 'kletterhalle';
+            this.$emit("data", {
+              type: "message",
+            own: false,
+            text: "Soll ich für dich nach einer Kletterhalle in deiner Nähe schauen?",
+            });
+            this.question = true;
+          }
         }
         else {
-          var goodWeatherActivities = ['Geh doch eine Runde joggen!', 'Zeit für eine tolle Radtour!', 'Ab auf den Golfplatz!'];
+          var goodWeatherActivities = ['Geh doch eine Runde joggen!', 'Zeit für eine tolle Radtour!', 'Wie wäre es mit Golf?'];
+          if (weather.main.temp - 273.15 > 20) {
+            goodWeatherActivities.push('Zeit fürs Freibad!');
+          }
           var randomInt2 = Math.floor(Math.random() * goodWeatherActivities.length);
           this.$emit("data", {
             type: "message",
             own: false,
             text: `Das Wetter sieht gut aus. ${goodWeatherActivities[randomInt2]}`,
           });
+          if (goodWeatherActivities[randomInt2].includes('Golf')) {
+            this.activity = 'golfplatz';
+            this.$emit("data", {
+              type: "message",
+            own: false,
+            text: "Soll ich für dich nach einem Golfplatz in deiner Nähe schauen?",
+            });
+            this.question = true;
+          }
         }
           
       } catch (ex) {
@@ -188,6 +222,7 @@ export default {
       let rResult = result[Math.floor(Math.random() * (result.length > 5 ? 5 : result.length))];
       let latitude = rResult.geometry.location.lat;
       let longitude = rResult.geometry.location.lng;
+      this.question = false;
       this.selection = false;
       this.$emit("data", {
         type: "location",
@@ -243,6 +278,8 @@ export default {
 
   data: ()=>({
     selection : false,
+    question: false,
+    activity: "",
     search : ""
   })
 };
