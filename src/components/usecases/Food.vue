@@ -136,13 +136,7 @@ export default {
       let rResult = result[Math.floor(Math.random() * (result.length > 5 ? 5 : result.length))];
       let latitude = rResult.geometry.location.lat;
       let longitude = rResult.geometry.location.lng;
-      this.selection = false
-       this.$emit("data", {
-        type: "message",
-        own: false,
-        text: "Ich habe " + rResult.name + " für dich gefunden, lass es dir schmecken",
-        speak: true,
-      });
+      this.selection = false;
       this.$emit("data", {
         type: "location",
         lat: rResult.geometry.location.lat,
@@ -162,7 +156,8 @@ export default {
         this.$emit("data", {
           type: "message",
           own: false,
-          text: `Zu diesem Restaurant würdest du momentan ${this.parseDirectionText(mode)} etwa ${hours} Stunden und ${minutes} Minuten benötigen!`,
+          text: `Ich habe ${rResult.name} für dich gefunden. 
+          Zu diesem Restaurant würdest du momentan ${this.parseDirectionText(mode)} etwa ${hours} Stunden und ${minutes} Minuten benötigen!`,
           speak: true,
         });
       } catch (ex) {
