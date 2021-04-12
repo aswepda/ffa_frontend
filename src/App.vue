@@ -126,6 +126,7 @@ export default {
   methods: {
     async toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      this.$globals.setSetting("dark", this.$vuetify.theme.dark)
     },
     setBackend() {
       this.$http.defaults.baseURL = this.backendURL;
@@ -134,6 +135,9 @@ export default {
         const { type } = e;
         this.online = type === 'online';
     }
+  },
+  created() {
+    this.$vuetify.theme.dark = this.$globals.getSetting("dark") || false;
   },
   mounted() {
     window.addEventListener('online', this.updateOnlineStatus);

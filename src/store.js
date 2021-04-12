@@ -10,7 +10,7 @@ export var globalStore = new Vue({
       spotifyCredentials: '',
       firstName: '',
       notificationsEnabled: false,
-      settings: {}
+      settings: {},
     }
   },
   created() {

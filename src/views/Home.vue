@@ -194,7 +194,7 @@ export default {
   position: absolute;
   z-index: 1;
   top: 0;
-  left: 0;
+  right: 0;
   pointer-events: none;
   background-image: linear-gradient(
     to top,
@@ -203,6 +203,14 @@ export default {
   );
   width: 100%;
   height: 5em;
+  margin-right: -15px;
+}
+.theme--dark .exampleChat::before {
+  background-image: linear-gradient(
+    to top,
+    rgba(18, 18, 18, 0),
+    rgba(18, 18, 18, 1) 90%
+  );
 }
 .exampleChat::after {
   content: "";
@@ -220,5 +228,12 @@ export default {
   height: 5em;
   margin-bottom: -12px;
   margin-left: -15px;
+}
+.theme--dark .exampleChat::after {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(18, 18, 18, 0),
+    rgba(18, 18, 18, 1) 90%
+  );
 }
 </style>
