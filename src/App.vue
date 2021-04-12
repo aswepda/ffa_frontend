@@ -64,6 +64,12 @@
         <span class="font-weight-light text-body-2">Release <a :href="releaseURL" target="_blank">{{gitHash}}</a></span>
       </div>
     </v-footer>
+    <v-snackbar bottom right :value="updateDownloading" :timeout="4500" color="primary">
+      Eine neue Version wird heruntergeladen..
+      <template #action>
+        <v-btn text :loading="true" outlined> Aktualisieren </v-btn>
+      </template>
+    </v-snackbar>
     <v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
       Eine neue Version ist verfügbar!
       <template #action>
