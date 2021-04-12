@@ -36,7 +36,7 @@
       </v-list>
       <template #append>
         <v-divider />
-        <v-text-field label="Backend" v-model="backendURL" class="mx-2 mt-3 mb-0" hide-details="auto" outlined @keyup.enter="setBackend"/>
+        <!--<v-text-field label="Backend" v-model="backendURL" class="mx-2 mt-3 mb-0" hide-details="auto" outlined @keyup.enter="setBackend"/>-->
         <notification-manager class="mx-3 mb-4"/>
         <v-divider />
         <v-list nav dense>
