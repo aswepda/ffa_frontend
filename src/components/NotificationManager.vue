@@ -25,27 +25,29 @@ export default {
         hour: 9,
         minute: 0,
         message: "Guten Morgen!\nDenke an deine heutige Morgen-Routine!",
-        icon: "/img/morning.png",
+        icon: require("@/assets/img/morning.png"),
         lastHandled: null,
       },
       {
         hour: 11,
         minute: 30,
         message: "Guten Mittag!\nVergesse deine Mittagspause nicht! 😊",
-        icon: "/img/eat.png",
+        icon: require("@/assets/img/eat.png"),
         lastHandled: null
       },
       {
         hour: 16,
         minute: 30,
         message: "Lust auf ein bisschen Sport?\nSchau doch mal in deine Sport Routine!",
-        icon: "/img/test.png"
+        icon: require("@/assets/img/test.png"),
+        lastHandled: null
       },
       {
         hour: 21,
         minute: 0,
         message: "Guten Abend!\nGehst du bald ins Bett? Dann werfe doch nochmal einen Blick in deine Gute Nacht Routine! 🌃",
-        icon: "/img/sleep_cloud.png"
+        icon: require("@/assets/img/sleep_cloud.png"),
+        lastHandled: null
       }
     ],
   }),
