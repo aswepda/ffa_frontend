@@ -101,7 +101,6 @@ Deine Routine für jeden Hunger.`,
       if (curHours >= 14 && curHours <= 19) featured.push("sport");
       if (curHours >= 17 && curHours <= 20) featured.push("eat");
       if ((curHours > 20) || (curHours <= 3)) featured.push("night");
-      console.log(curHours);
       return featured;
     },
     sortedActions() {

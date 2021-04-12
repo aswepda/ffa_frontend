@@ -23,7 +23,10 @@ const Weather = () => import(/* webpackChunkName: "weather" */"./content/Weather
 
 export default {
   props: {
-    defaultMessages: Array
+    defaultMessages: {
+      type: Array,
+      default: () => []
+    }
   },
   data: () => ({
     messages: [],
