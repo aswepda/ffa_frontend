@@ -220,12 +220,22 @@ export default {
           speak: true,
         });
       } catch (ex) {
-        this.$emit("data", {
-          type: "message",
-          own: false,
-          text:
-            "Ich hatte leider Probleme bei deiner Standortabfrage! Prüfe bitte ob du diese Anwendung dazu berechtigt hast deinen Standort abzurufen! 🚧",
-        });
+        if(ex instanceof window.GeolocationPositionError) {
+          this.$emit("data", {
+            type: "message",
+            own: false,
+            text:
+              "Ich hatte leider Probleme bei deiner Standortabfrage! Prüfe bitte ob du diese Anwendung dazu berechtigt hast deinen Standort abzurufen! 🚧",
+          });
+        } else {
+          this.$emit("data", {
+            type: "message",
+            own: false,
+            text:
+              "Ich konnte deinen Arbeitsplatz leider nicht finden. Bitte schaue in den Einstellungen nach, ob du ihn korrekt geschrieben hast. 👀"
+          })
+        }
+        
       }
     },
     notifySpotifyLogin() {
