@@ -9,13 +9,13 @@
     <v-card-text
       >Hey Sportsfreund! Bereit für ein bisschen Bewegung? 💪</v-card-text
     >
-    <v-card-actions v-if="!selection && !question">
+    <v-card-actions v-if="selection == 0 && !question">
       <div class="d-flex flex-wrap">
         <v-btn class="ml-2 mb-1" outlined rounded small @click="weather"
           ><v-icon left small>mdi-message</v-icon>Schlag mir etwas Sport vor!
         </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyWorkout">
-          <v-icon left small>mdi-spotify</v-icon>Etwas Sportmusik bitte!
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="spotify">
+          <v-icon left small>mdi-spotify</v-icon>Etwas Musik bitte!
         </v-btn>
         <v-btn class="ml-2 mb-1" outlined rounded small @click="places">
           <v-icon left small>mdi-map-marker</v-icon>Sportangebote in meiner Nähe
@@ -32,7 +32,7 @@
         </v-btn>
       </div>
     </v-card-actions>
-    <div v-if="selection">
+    <div v-if="(selection == 5)">
       <v-card-actions>
         <div class="d-flex flex-wrap" >
           <v-btn class="ml-2 mb-1" outlined rounded small @click="search_places('schwimmbad')">
@@ -60,8 +60,107 @@
           <v-icon left small>mdi-magnify</v-icon>{{search || "eigene Suche"}}
           </v-btn>
         </div>
-          </v-card-actions>
+      </v-card-actions>
+    </div>
+    <div v-if="(selection == 1)">
+      <v-card-actions>
+        <div class="d-flex flex-wrap">
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist()">
+            <v-icon left small>mdi-spotify</v-icon>Playlist spielen
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist()">
+            <v-icon left small>mdi-spotify</v-icon>Interpreten spielen
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre()">
+            <v-icon left small>mdi-spotify</v-icon>Genre spielen
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyWorkout()">
+            <v-icon left small>mdi-spotify</v-icon>Workout Musik spielen
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selection = 0">
+            <v-icon left small>mdi-arrow-left</v-icon>Zurück
+          </v-btn>
         </div>
+      </v-card-actions>
+    </div>
+    <div v-if="(selection == 2)">
+      <v-card-actions>
+        <div class="d-flex">
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist(playlists[0].name)">
+            <v-icon left small>mdi-spotify</v-icon>{{ playlists[0].name }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist(playlists[1].name)">
+            <v-icon left small>mdi-spotify</v-icon>{{ playlists[1].name }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist(playlists[2].name)">
+            <v-icon left small>mdi-spotify</v-icon>{{ playlists[2].name }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist(playlists[3].name)">
+            <v-icon left small>mdi-spotify</v-icon>{{ playlists[3].name }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selection = 1">
+            <v-icon left small>mdi-arrow-left</v-icon>Zurück
+          </v-btn>
+          <v-text-field dense outlined v-model="search" label="Playlist suchen" class="mx-2">
+          </v-text-field>
+          <v-btn outlined rounded @click="spotifyPlayPlaylist(search)" v-if="search">
+            <v-icon left small>mdi-magnify</v-icon>{{ search || "Playlist suchen" }}
+          </v-btn>
+        </div>
+      </v-card-actions>
+    </div>
+    <div v-if="(selection == 3)">
+      <v-card-actions>
+        <div class="d-flex">
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist(favoriteArtists[0].name)">
+            <v-icon left small>mdi-spotify</v-icon>{{ favoriteArtists[0].name }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist(favoriteArtists[1].name)">
+            <v-icon left small>mdi-spotify</v-icon>{{ favoriteArtists[1].name }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist(favoriteArtists[2].name)">
+            <v-icon left small>mdi-spotify</v-icon>{{ favoriteArtists[2].name }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist(favoriteArtists[3].name)">
+            <v-icon left small>mdi-spotify</v-icon>{{ favoriteArtists[3].name }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selection = 1">
+            <v-icon left small>mdi-arrow-left</v-icon>Zurück
+          </v-btn>
+          <v-text-field dense outlined v-model="search" label="Interpreten suchen" class="mx-2">
+          </v-text-field>
+          <v-btn outlined rounded @click="spotifyPlayArtist(search)" v-if="search">
+            <v-icon left small>mdi-magnify</v-icon>{{ search || "Interpreten suchen" }}
+          </v-btn>
+        </div>
+      </v-card-actions>
+    </div>
+    <div v-if="(selection == 4)">
+      <v-card-actions>
+        <div class="d-flex">
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre(favoriteGenres[0])" >
+            <v-icon left small>mdi-spotify</v-icon>{{ favoriteGenres[0] }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre(favoriteGenres[1])">
+            <v-icon left small>mdi-spotify</v-icon>{{ favoriteGenres[1] }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre(favoriteGenres[2])">
+            <v-icon left small>mdi-spotify</v-icon>{{ favoriteGenres[2] }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre(favoriteGenres[3])">
+            <v-icon left small>mdi-spotify</v-icon>{{ favoriteGenres[3] }}
+          </v-btn>
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selection = 1">
+            <v-icon left small>mdi-arrow-left</v-icon>Zurück
+          </v-btn>
+          <v-text-field dense outlined v-model="search" label="Genre suchen" class="mx-2">
+          </v-text-field>
+          <v-btn outlined rounded @click="spotifyPlayGenre(search)" v-if="search">
+            <v-icon left small>mdi-magnify</v-icon>{{ search || "Genre suchen" }}
+          </v-btn>
+        </div>
+      </v-card-actions>
+    </div>
   </v-card>
 </template>
 
@@ -70,6 +169,16 @@ import DirectionsVue from "../../mixins/api/Directions.vue";
 import SpotifyVue from "../../mixins/api/Spotify.vue";
 import WeatherVue from "../../mixins/api/Weather.vue";
 import PlacesVue from "../../mixins/api/Places.vue";
+
+/*
+selections:
+0 : nothing
+1 : select kind of spotify seach
+2 : select playlist
+3 : select artist
+4 : select genre
+5 : select sport location
+*/
 
 export default {
   methods: {
@@ -164,11 +273,11 @@ export default {
         });
       }
     },
-    async spotifyWorkout() {
+    async spotify() {
       this.$emit("data", {
         type: "message",
         own: true,
-        text: "Kannst du mir motivierende Musik für mein Workout empfehlen?",
+        text: "Ich würde mich über ein bisschen Musik freuen!",
       });
 
       if (this.notifySpotifyLogin()) return;
@@ -176,20 +285,90 @@ export default {
       this.$emit("data", {
         type: "message",
         own: false,
-        text:
-          "Natürlich! Ich suche kurz nach einer passenden Playlist für dich. 🎶",
+        text: "Klar doch! Was willst du denn hören?",
       });
-
-      let searchTerm = ["motivation", "workout", "sport"];
-      let playlistResult = await this.getPlaylists(
-        searchTerm[Math.floor(Math.random() * searchTerm.length)]
-      );
-      let randomPlaylist =
-        playlistResult[Math.floor(Math.random() * playlistResult.length)];
+      this.selection = 1;
+    },
+    async spotifyPlayGenre(genre) {
+      if (genre) {
+        let genrePlaylist = await this.playGenre(genre);
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text: `Hier ist eine Playlist mit ${genre} Musik!\n Ich hoffe es gefällt dir! 🎵`,
+          speak: true,
+        });
+        this.$emit("data", {
+          type: "spotify",
+          own: false,
+          title: genrePlaylist.name,
+          uri: genrePlaylist.uri,
+        });
+        this.selection = 0;
+        this.search = "";
+      } else {
+        this.favoriteGenres = await this.getUserFavoriteGenres();
+        this.selection = 4;
+      }
+    },
+    async spotifyPlayArtist(artist) {
+      if (artist) {
+        let searchedArtist = (await this.getArtist(artist))[0];
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text: `Hier ist der Interpret ${searchedArtist.name}!\n Viel Spaß beim hören! 🎵`,
+          speak: true,
+        });
+        this.$emit("data", {
+          type: "spotify",
+          own: false,
+          title: searchedArtist.name,
+          uri: searchedArtist.uri,
+        });
+        this.selection = 0;
+        this.search = "";
+      } else {
+        this.favoriteArtists = await this.getUserFavoriteArtists();
+        this.selection = 3;
+      }
+    },
+    async spotifyPlayPlaylist(name) {
+      if (name) {
+        let searchedPlaylist = (await this.getPlaylists(name))[0];
+        this.$emit("data", {
+          type: "message",
+          own: false,
+          text: `Hier ist die Playlist ${searchedPlaylist.name} von ${searchedPlaylist.owner} !\nIch hoffe sie gefällt dir. 🎵`,
+          speak: true,
+        });
+        this.$emit("data", {
+          type: "spotify",
+          own: false,
+          title: searchedPlaylist.name,
+          uri: searchedPlaylist.uri,
+        });
+        this.selection = 0;
+        this.search = "";
+      } else {
+        this.playlists = await this.getUserPlaylists();
+        this.selection = 2;
+      }
+    },
+    async spotifyWorkout() {
       this.$emit("data", {
         type: "message",
         own: false,
-        text: `Ich habe die Playlist ${randomPlaylist.name} von ${randomPlaylist.owner} gefunden! Ich hoffe sie gefällt dir. 🎵🐦🌞`,
+        text:
+          "Natürlich! Ich suche kurz nach einer motivierenden Sport Playlist für dich. 🎶",
+      });
+
+      let searchTerm = ["motivation", "workout", "sport"];
+      let randomPlaylist = (await this.getPlaylists(searchTerm[Math.floor(Math.random() * searchTerm.length)]))[0];
+      this.$emit("data", {
+        type: "message",
+        own: false,
+        text: `Ich habe die Playlist ${randomPlaylist.name} von ${randomPlaylist.owner} gefunden! Ich hoffe sie gefällt dir. 🎵🏃‍♂️💪`,
         speak: true,
       });
       this.$emit("data", {
@@ -198,6 +377,7 @@ export default {
         title: randomPlaylist.name,
         uri: randomPlaylist.uri,
       });
+      this.selection = 0;
     },
     async places(){
       this.$emit("data", {
@@ -210,7 +390,7 @@ export default {
         own: false,
         text: "Wie willst du dich sportlich betätigen?",
       });
-    this.selection = true
+    this.selection = 5;
     },
     async search_places(type){
       this.$emit("data", {
@@ -223,7 +403,7 @@ export default {
       let latitude = rResult.geometry.location.lat;
       let longitude = rResult.geometry.location.lng;
       this.question = false;
-      this.selection = false;
+      this.selection = 0;
       this.$emit("data", {
         type: "location",
         lat: rResult.geometry.location.lat,
@@ -277,10 +457,13 @@ export default {
   mixins: [WeatherVue, PlacesVue, SpotifyVue, DirectionsVue],
 
   data: ()=>({
-    selection : false,
+    selection: 0,
     question: false,
     activity: "",
-    search : ""
+    search : "",
+    playlists: "",
+    favoriteArtists: "",
+    favoriteGenres: ""
   })
 };
 </script>
