@@ -318,6 +318,7 @@ export default {
           uri: genrePlaylist.uri,
         });
         this.selection = 0;
+        this.search = "";
       } else {
         this.favoriteGenres = await this.getUserFavoriteGenres();
         this.selection = 4;
@@ -339,6 +340,7 @@ export default {
           uri: searchedArtist.uri,
         });
         this.selection = 0;
+        this.search = "";
       } else {
         this.favoriteArtists = await this.getUserFavoriteArtists();
         this.selection = 3;
@@ -360,6 +362,7 @@ export default {
           uri: searchedPlaylist.uri,
         });
         this.selection = 0;
+        this.search = "";
       } else {
         this.playlists = await this.getUserPlaylists();
         this.selection = 2;
