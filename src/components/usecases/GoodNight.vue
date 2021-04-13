@@ -10,7 +10,7 @@
       >Guten Abend {{ firstName }}! Für deinen Abend habe ich dir einige Dinge
       vorbereitet. 😊</v-card-text
     >
-    <v-card-actions v-if="(selection = 0)">
+    <v-card-actions v-if="(selection == 0)">
       <div class="d-flex flex-wrap">
         <v-btn class="ml-2 mb-1" outlined rounded small @click="test">
           <v-icon left small>mdi-message</v-icon>Guten Abend!
@@ -34,28 +34,28 @@
         </v-btn>
       </div>
     </v-card-actions>
-    <div v-if="(selection = 1)">
+    <div v-if="(selection == 1)">
       <v-card-actions>
         <div class="d-flex flex-wrap">
-          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist">
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist()">
             <v-icon left small>mdi-spotify</v-icon>Playlist spielen
           </v-btn>
-          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist">
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist()">
             <v-icon left small>mdi-spotify</v-icon>Interpreten spielen
           </v-btn>
-          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre">
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre()">
             <v-icon left small>mdi-spotify</v-icon>Genre spielen
           </v-btn>
           <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlaySleepMusic()">
             <v-icon left small>mdi-spotify</v-icon>Einschlafmusik spielen
           </v-btn>
-          <v-btn class="ml-2 mb-1" outlined rounded small @click="selectSpotify = false">
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selection = 0">
             <v-icon left small>mdi-arrow-left</v-icon>Zurück
           </v-btn>
         </div>
       </v-card-actions>
     </div>
-    <div v-if="(selection = 2)">
+    <div v-if="(selection == 2)">
       <v-card-actions>
         <div class="d-flex">
           <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist(playlists[0].name)">
@@ -81,7 +81,7 @@
         </div>
       </v-card-actions>
     </div>
-    <div v-if="(selection = 3)">
+    <div v-if="(selection == 3)">
       <v-card-actions>
         <div class="d-flex">
           <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist(favoriteArtists[0].name)">
@@ -101,13 +101,13 @@
           </v-btn>
           <v-text-field dense outlined v-model="search" label="Interpreten suchen" class="mx-2">
           </v-text-field>
-          <v-btn outlined rounded @click="spotifyPlayPlaylist(search)" v-if="search">
+          <v-btn outlined rounded @click="spotifyPlayArtist(search)" v-if="search">
             <v-icon left small>mdi-magnify</v-icon>{{ search || "Interpreten suchen" }}
           </v-btn>
         </div>
       </v-card-actions>
     </div>
-    <div v-if="(selection = 4)">
+    <div v-if="(selection == 4)">
       <v-card-actions>
         <div class="d-flex">
           <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre(favoriteGenres[0])" >
@@ -127,7 +127,7 @@
           </v-btn>
           <v-text-field dense outlined v-model="search" label="Genre suchen" class="mx-2">
           </v-text-field>
-          <v-btn outlined rounded @click="spotifyPlayPlaylist(search)" v-if="search">
+          <v-btn outlined rounded @click="spotifyPlayGenre(search)" v-if="search">
             <v-icon left small>mdi-magnify</v-icon>{{ search || "Genre suchen" }}
           </v-btn>
         </div>
@@ -304,7 +304,7 @@ export default {
     },
     async spotifyPlayGenre(genre) {
       if (genre) {
-        let genrePlaylist = this.playGenre(genre)[0];
+        let genrePlaylist = await this.playGenre(genre);
         this.$emit("data", {
           type: "message",
           own: false,
@@ -325,7 +325,7 @@ export default {
     },
     async spotifyPlayArtist(artist) {
       if (artist) {
-        let searchedArtist = this.getArtist(artist)[0];
+        let searchedArtist = (await this.getArtist(artist))[0];
         this.$emit("data", {
           type: "message",
           own: false,
@@ -346,7 +346,7 @@ export default {
     },
     async spotifyPlayPlaylist(name) {
       if (name) {
-        let searchedPlaylist = this.getPlaylists(name)[0];
+        let searchedPlaylist = (await this.getPlaylists(name))[0];
         this.$emit("data", {
           type: "message",
           own: false,
@@ -374,9 +374,7 @@ export default {
       });
 
       let searchTerm = ["ruhig", "calm", "schlaf", "sleep"];
-      let randomPlaylist = await this.getPlaylists(
-        searchTerm[Math.floor(Math.random() * searchTerm.length)]
-      )[0];
+      let randomPlaylist = (await this.getPlaylists(searchTerm[Math.floor(Math.random() * searchTerm.length)]))[0];
       this.$emit("data", {
         type: "message",
         own: false,
@@ -410,7 +408,7 @@ export default {
       try {
         let events = await this.getEvents("tomorrow");
         if (events.length) {
-          if (!this.$globals.getSetting("workplace")) {
+          if (this.$globals.getSetting("workplace")) {
             let mode = this.$globals.getSetting("directionMode") || "driving";
             let workplace = this.$globals.getSetting("workplace");
             let direction = await this.getDirection(workplace, mode);
@@ -423,6 +421,13 @@ export default {
               text: `Dein erster Termin heißt ${events[0].title} und beginnt um ${events[0].start.getHours()}:${events[0].start.getMinutes()} Uhr! \n
               Zu deiner Arbeitsstelle ${workplace} wirst du morgen ${this.parseDirectionText(mode)} etwa ${hours} Stunden und ${minutes} Minuten benötigen!`,
             });
+          } else {
+              this.$emit("data", {
+              type: "message",
+              own: false,
+              speak: true,
+              text: `Dein erster Termin heißt ${events[0].title} und beginnt um ${events[0].start.getHours()}:${events[0].start.getMinutes()} Uhr!`,
+              });
           }
         } else {
           this.$emit("data", {

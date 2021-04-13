@@ -10,15 +10,15 @@ export default {
             return artistResult.data.data;
         },
         async playGenre(genre) {
-            let playlistResult = await this.$http.get(`//spotify/genre/${genre}`, {
+            let playlistResult = await this.$http.get(`/spotify/genre/${genre}`, {
                 headers: {
                     Authorization: this.$globals.spotifyCredentials
                 }
             });
             return playlistResult.data.data;
         },
-        async getUserPlaylists(search) {
-            let playlistResult = await this.$http.get(`/spotify/user/playlists/${search || ''}`, {
+        async getUserPlaylists() {
+            let playlistResult = await this.$http.get(`/spotify/user/playlists`, {
                 headers: {
                     Authorization: this.$globals.spotifyCredentials
                 }
@@ -26,7 +26,7 @@ export default {
             return playlistResult.data.data;
         },
         async getUserFavoriteArtists(genre) {
-            let artistResult = await this.$http.get(`/spotify/user/favorite/arists${genre ? '?genre=' + genre : ''}`, {
+            let artistResult = await this.$http.get(`/spotify/user/favorite/artists${genre ? '?genre=' + genre : ''}`, {
                 headers: {
                     Authorization: this.$globals.spotifyCredentials
                 }
