@@ -15,8 +15,7 @@
         <v-btn class="ml-2 mb-1" outlined rounded small @click="test">
           <v-icon left small>mdi-message</v-icon>Guten Abend!
         </v-btn>
-        <v-btn class="ml-2 mb-1" outlined rounded small @click="weatherTomorrow"
-          ><v-icon left small>mdi-weather-partly-cloudy</v-icon>Wie wird das
+        <v-btn class="ml-2 mb-1" outlined rounded small @click="weatherTomorrow"><v-icon left small>mdi-weather-partly-cloudy</v-icon>Wie wird das
           Wetter morgen?
         </v-btn>
         <v-btn
@@ -24,8 +23,7 @@
           outlined
           rounded
           small
-          @click="calendarTomorrow"
-          ><v-icon left small>mdi-calendar</v-icon>Was steht morgen an?
+          @click="calendarTomorrow"><v-icon left small>mdi-calendar</v-icon>Was steht morgen an?
         </v-btn>
         <v-btn class="ml-2 mb-1" outlined rounded small @click="spotify">
           <v-icon left small>mdi-spotify</v-icon>Etwas Musik bitte!
@@ -39,49 +37,19 @@
     <div v-if="(selection = 1)">
       <v-card-actions>
         <div class="d-flex flex-wrap">
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayPlaylist"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist">
             <v-icon left small>mdi-spotify</v-icon>Playlist spielen
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayArtist"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist">
             <v-icon left small>mdi-spotify</v-icon>Interpreten spielen
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayGenre"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre">
             <v-icon left small>mdi-spotify</v-icon>Genre spielen
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlaySleepMusic()"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlaySleepMusic()">
             <v-icon left small>mdi-spotify</v-icon>Einschlafmusik spielen
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="selectSpotify = false"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selectSpotify = false">
             <v-icon left small>mdi-arrow-left</v-icon>Zurück
           </v-btn>
         </div>
@@ -90,67 +58,25 @@
     <div v-if="(selection = 2)">
       <v-card-actions>
         <div class="d-flex">
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayPlaylist(playlists[0].name)"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist(playlists[0].name)">
             <v-icon left small>mdi-spotify</v-icon>{{ playlists[0].name }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayPlaylist(playlists[1].name)"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist(playlists[1].name)">
             <v-icon left small>mdi-spotify</v-icon>{{ playlists[1].name }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayPlaylist(playlists[2].name)"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist(playlists[2].name)">
             <v-icon left small>mdi-spotify</v-icon>{{ playlists[2].name }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayPlaylist(playlists[3].name)"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist(playlists[3].name)">
             <v-icon left small>mdi-spotify</v-icon>{{ playlists[3].name }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="selection = 1"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selection = 1">
             <v-icon left small>mdi-arrow-left</v-icon>Zurück
           </v-btn>
-          <v-text-field
-            dense
-            outlined
-            v-model="search"
-            label="Playlist suchen"
-            class="mx-2"
-          >
+          <v-text-field dense outlined v-model="search" label="Playlist suchen" class="mx-2">
           </v-text-field>
-          <v-btn
-            outlined
-            rounded
-            @click="spotifyPlayPlaylist(search)"
-            v-if="search"
-          >
-            <v-icon left small>mdi-magnify</v-icon
-            >{{ search || "Playlist suchen" }}
+          <v-btn outlined rounded @click="spotifyPlayPlaylist(search)" v-if="search">
+            <v-icon left small>mdi-magnify</v-icon>{{ search || "Playlist suchen" }}
           </v-btn>
         </div>
       </v-card-actions>
@@ -158,67 +84,25 @@
     <div v-if="(selection = 3)">
       <v-card-actions>
         <div class="d-flex">
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayArtist(favoriteArtists[0].name)"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist(favoriteArtists[0].name)">
             <v-icon left small>mdi-spotify</v-icon>{{ favoriteArtists[0].name }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayArtist(favoriteArtists[1].name)"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist(favoriteArtists[1].name)">
             <v-icon left small>mdi-spotify</v-icon>{{ favoriteArtists[1].name }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayArtist(favoriteArtists[2].name)"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist(favoriteArtists[2].name)">
             <v-icon left small>mdi-spotify</v-icon>{{ favoriteArtists[2].name }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayArtist(favoriteArtists[3].name)"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist(favoriteArtists[3].name)">
             <v-icon left small>mdi-spotify</v-icon>{{ favoriteArtists[3].name }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="selection = 1"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selection = 1">
             <v-icon left small>mdi-arrow-left</v-icon>Zurück
           </v-btn>
-          <v-text-field
-            dense
-            outlined
-            v-model="search"
-            label="Interpreten suchen"
-            class="mx-2"
-          >
+          <v-text-field dense outlined v-model="search" label="Interpreten suchen" class="mx-2">
           </v-text-field>
-          <v-btn
-            outlined
-            rounded
-            @click="spotifyPlayPlaylist(search)"
-            v-if="search"
-          >
-            <v-icon left small>mdi-magnify</v-icon
-            >{{ search || "Interpreten suchen" }}
+          <v-btn outlined rounded @click="spotifyPlayPlaylist(search)" v-if="search">
+            <v-icon left small>mdi-magnify</v-icon>{{ search || "Interpreten suchen" }}
           </v-btn>
         </div>
       </v-card-actions>
@@ -226,67 +110,25 @@
     <div v-if="(selection = 4)">
       <v-card-actions>
         <div class="d-flex">
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayGenre(favoriteGenres[0])"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre(favoriteGenres[0])" >
             <v-icon left small>mdi-spotify</v-icon>{{ favoriteGenres[0] }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayGenre(favoriteGenres[1])"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre(favoriteGenres[1])">
             <v-icon left small>mdi-spotify</v-icon>{{ favoriteGenres[1] }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayGenre(favoriteGenres[2])"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre(favoriteGenres[2])">
             <v-icon left small>mdi-spotify</v-icon>{{ favoriteGenres[2] }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="spotifyPlayGenre(favoriteGenres[3])"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre(favoriteGenres[3])">
             <v-icon left small>mdi-spotify</v-icon>{{ favoriteGenres[3] }}
           </v-btn>
-          <v-btn
-            class="ml-2 mb-1"
-            outlined
-            rounded
-            small
-            @click="selection = 1"
-          >
+          <v-btn class="ml-2 mb-1" outlined rounded small @click="selection = 1">
             <v-icon left small>mdi-arrow-left</v-icon>Zurück
           </v-btn>
-          <v-text-field
-            dense
-            outlined
-            v-model="search"
-            label="Genre suchen"
-            class="mx-2"
-          >
+          <v-text-field dense outlined v-model="search" label="Genre suchen" class="mx-2">
           </v-text-field>
-          <v-btn
-            outlined
-            rounded
-            @click="spotifyPlayPlaylist(search)"
-            v-if="search"
-          >
-            <v-icon left small>mdi-magnify</v-icon
-            >{{ search || "Genre suchen" }}
+          <v-btn outlined rounded @click="spotifyPlayPlaylist(search)" v-if="search">
+            <v-icon left small>mdi-magnify</v-icon>{{ search || "Genre suchen" }}
           </v-btn>
         </div>
       </v-card-actions>
@@ -462,7 +304,7 @@ export default {
     },
     async spotifyPlayGenre(genre) {
       if (genre) {
-        let genrePlaylist = playGenre(artist)[0];
+        let genrePlaylist = this.playGenre(genre)[0];
         this.$emit("data", {
           type: "message",
           own: false,
@@ -477,13 +319,13 @@ export default {
         });
         this.selection = 0;
       } else {
-        let favoriteGenres = await this.getFavoriteGenres();
+        this.favoriteGenres = await this.getUserFavoriteGenres();
         this.selection = 4;
       }
     },
     async spotifyPlayArtist(artist) {
       if (artist) {
-        let searchedArtist = getArtist(artist)[0];
+        let searchedArtist = this.getArtist(artist)[0];
         this.$emit("data", {
           type: "message",
           own: false,
@@ -498,13 +340,13 @@ export default {
         });
         this.selection = 0;
       } else {
-        let favoriteArtists = await this.getFavoriteArtists();
+        this.favoriteArtists = await this.getUserFavoriteArtists();
         this.selection = 3;
       }
     },
     async spotifyPlayPlaylist(name) {
       if (name) {
-        let searchedPlaylist = getPlaylists(name)[0];
+        let searchedPlaylist = this.getPlaylists(name)[0];
         this.$emit("data", {
           type: "message",
           own: false,
@@ -519,7 +361,7 @@ export default {
         });
         this.selection = 0;
       } else {
-        let playlists = await this.getUserPlaylists();
+        this.playlists = await this.getUserPlaylists();
         this.selection = 2;
       }
     },
@@ -621,6 +463,9 @@ export default {
   data: () => ({
     selection: 0,
     search: "",
+    playlists: "",
+    favoriteArtists: "",
+    favoriteGenres: ""
   }),
 };
 </script>

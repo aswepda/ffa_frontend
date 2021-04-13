@@ -1,6 +1,22 @@
 <script>
 export default {
     methods: {
+        async getArtist(artist) {
+            let artistResult = await this.$http.get(`/spotify/artist/${artist}`, {
+                headers: {
+                    Authorization: this.$globals.spotifyCredentials
+                }
+            });
+            return artistResult.data.data;
+        },
+        async playGenre(genre) {
+            let playlistResult = await this.$http.get(`//spotify/genre/${genre}`, {
+                headers: {
+                    Authorization: this.$globals.spotifyCredentials
+                }
+            });
+            return playlistResult.data.data;
+        },
         async getUserPlaylists(search) {
             let playlistResult = await this.$http.get(`/spotify/user/playlists/${search || ''}`, {
                 headers: {
