@@ -46,7 +46,7 @@
         </div>
       </v-card-actions>
       <v-card-actions>
-        <div class="d-flex">
+        <div class="d-flex flex-wrap">
           <v-text-field dense outlined v-model="search" label="eigene Suche" class="mx-2">
           </v-text-field>
           <v-btn outlined rounded @click="search_places(search)" v-if="search">

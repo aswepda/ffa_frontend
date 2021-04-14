@@ -53,7 +53,7 @@
         </div>
       </v-card-actions>
       <v-card-actions>
-        <div class="d-flex">
+        <div class="d-flex flex-wrap">
           <v-text-field dense outlined v-model="search" label="eigene Suche" class="mx-2">
           </v-text-field>
           <v-btn outlined rounded @click="search_places(search)" v-if="search">
@@ -85,7 +85,7 @@
     </div>
     <div v-if="(selection == 2)">
       <v-card-actions>
-        <div class="d-flex">
+        <div class="d-flex flex-wrap">
           <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayPlaylist(playlists[0].name)">
             <v-icon left small>mdi-spotify</v-icon>{{ playlists[0].name }}
           </v-btn>
@@ -111,7 +111,7 @@
     </div>
     <div v-if="(selection == 3)">
       <v-card-actions>
-        <div class="d-flex">
+        <div class="d-flex flex-wrap">
           <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayArtist(favoriteArtists[0].name)">
             <v-icon left small>mdi-spotify</v-icon>{{ favoriteArtists[0].name }}
           </v-btn>
@@ -137,7 +137,7 @@
     </div>
     <div v-if="(selection == 4)">
       <v-card-actions>
-        <div class="d-flex">
+        <div class="d-flex flex-wrap">
           <v-btn class="ml-2 mb-1" outlined rounded small @click="spotifyPlayGenre(favoriteGenres[0])" >
             <v-icon left small>mdi-spotify</v-icon>{{ favoriteGenres[0] }}
           </v-btn>
