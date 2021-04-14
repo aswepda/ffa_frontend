@@ -7,7 +7,7 @@ export default {
     return {
       client_id: "d5550bed36f64690a6d2ae32d26023bd",
       scopes: "user-top-read playlist-modify-private",
-      redirect_uri: "https://aswepda.surge.sh/#/",
+      redirect_uri: "https://ffagent.eu.org/#/",
       me: null,
     };
   },
