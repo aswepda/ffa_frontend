@@ -8,8 +8,8 @@ export default {
           lat = location.coords.latitude;
           lon = location.coords.longitude;
       }
-      let placesData = await this.$http.get(`places?search=${search}?lat=${lat}&lon=${lon}`);
-      return placesData.map(i => i.result); // extracts result from places array
+      let placesData = await this.$http.get(`places?search=${search}&lat=${lat}&lon=${lon}`);
+      return placesData.data.map(i => i.result); // extracts result from places array
     },
   },
   mixins: [GPSLocation]

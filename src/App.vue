@@ -8,7 +8,7 @@
       v-model="drawer"
       temporary
       app
-      src="/img/pda_background.jpg"
+      src="@/assets/img/pda_background.jpg"
       dark
       height="100%"
     >
@@ -36,7 +36,7 @@
       </v-list>
       <template #append>
         <v-divider />
-        <v-text-field label="Backend" v-model="backendURL" class="mx-2 mt-3 mb-0" hide-details="auto" outlined @keyup.enter="setBackend"/>
+        <!--<v-text-field label="Backend" v-model="backendURL" class="mx-2 mt-3 mb-0" hide-details="auto" outlined @keyup.enter="setBackend"/>-->
         <notification-manager class="mx-3 mb-4"/>
         <v-divider />
         <v-list nav dense>
@@ -58,15 +58,29 @@
       </v-container>
     </v-main>
     <v-footer app absolute>
-      <div class="mx-auto">
+      <div class="mx-auto text-center">
         &copy; {{ new Date().getFullYear() }} <strong>FFA</strong> Team
+        <br>
+        <span class="font-weight-light text-body-2">Release <a :href="releaseURL" target="_blank">{{gitHash}}</a></span>
       </div>
     </v-footer>
+    <v-snackbar bottom right :value="updateDownloading" :timeout="4500" color="primary">
+      Eine neue Version wird heruntergeladen..
+      <template #action>
+        <v-btn text :loading="true" outlined> Aktualisieren </v-btn>
+      </template>
+    </v-snackbar>
     <v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
-      Ein neue Version ist verfügbar!
+      Eine neue Version ist verfügbar!
       <template #action>
         <v-btn text @click="refreshApp" :loading="initiatedRefresh" outlined> Aktualisieren </v-btn>
       </template>
+    </v-snackbar>
+    <v-snackbar bottom multi-line :value="!online" :timeout="-1" color="error">
+      <div class="d-flex align-center">
+        <div><v-icon left>mdi-network-strength-off</v-icon></div>
+        <div>Du scheinst offline zu sein..<br>Manche Funktionen werden wahrscheinlich nicht wie erwartet funktionieren.</div>
+      </div>
     </v-snackbar>
     <debug v-model="debugDialog"/>
   </v-app>
@@ -91,6 +105,7 @@ export default {
     authCode: "",
     backendURL: "https://pda-backend.herokuapp.com",
     debugDialog: false,
+    online: navigator.onLine
   }),
   computed: {
     drawer: {
@@ -101,14 +116,32 @@ export default {
         this.$globals.setDrawer(value);
       },
     },
+    gitHash() {
+      return process.env.VUE_APP_GIT_HASH;
+    },
+    releaseURL() {
+      return `https://github.com/aswepda/pda_frontend/commit/${this.gitHash}`;
+    }
   },
   methods: {
     async toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      this.$globals.setSetting("dark", this.$vuetify.theme.dark)
     },
     setBackend() {
       this.$http.defaults.baseURL = this.backendURL;
     },
+    updateOnlineStatus(e) {
+        const { type } = e;
+        this.online = type === 'online';
+    }
+  },
+  created() {
+    this.$vuetify.theme.dark = this.$globals.getSetting("dark") || false;
+  },
+  mounted() {
+    window.addEventListener('online', this.updateOnlineStatus);
+    window.addEventListener('offline', this.updateOnlineStatus);
   },
   mixins: [update],
 };

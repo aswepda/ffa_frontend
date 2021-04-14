@@ -1,7 +1,7 @@
 <template>
   <v-card :max-width="maximumWidth">
     <v-card-title> {{city}} </v-card-title>
-    <v-card-subtitle> {{weekday}}, {{time}}, {{condition}}</v-card-subtitle>
+    <v-card-subtitle> {{date}}, {{condition}}</v-card-subtitle>
     <v-card-text>
       <v-row>
         <v-col cols="7" class="flex-grow-1 flex-shrink-0">
@@ -17,13 +17,13 @@
       <v-row align-content="space-around">
         <v-col>
           <div class="d-flex flex-column align-center">
-            <img src="/img/weather/humidity.svg" height="40px"/>
+            <img src="@/assets/img/weather/humidity.svg" height="40px" alt="Luftfeuchte"/>
             <div>{{humidity}}% Luftfeuchte</div>
           </div>
         </v-col>
         <v-col>
           <div class="d-flex flex-column align-center">
-            <img src="/img/weather/wind.svg" height="40px"/>
+            <img src="@/assets/img/weather/wind.svg" height="40px" alt="Windgeschwindigkeit"/>
             <div>{{windspeed}} km/h Windgeschwindigkeit</div>
           </div>
         </v-col>
@@ -66,7 +66,8 @@ export default {
     now: {
       type: Date,
       default: () => {return new Date()}
-    }
+    },
+    dateString: String
   },
   computed: {
     weekday() {
@@ -75,8 +76,11 @@ export default {
     time() {
       return this.now.toLocaleString(window.navigator.language, {hour: 'numeric'})
     },
+    date() {
+      return this.dateString || `${this.weekday}, ${this.time}`
+    },
     weatherIcon() {
-      return `/img/weather/${weatherIcons[this.icon]}.svg`;
+      return require(`@/assets/img/weather/${weatherIcons[this.icon]}.svg`);
     },
     temperatureFormatted() {
       return this.temperature.toFixed(2).replace('.',',');

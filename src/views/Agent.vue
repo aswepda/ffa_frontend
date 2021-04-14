@@ -1,6 +1,8 @@
 <template>
   <div class="agenttest">
     <chat ref="chat" class="mt-3" />
+    <transition name="fade" mode="out-in"><hr v-if="messagesInChat" class="my-4">
+    <h1 class="text-h4 mb-3" v-if="!messagesInChat">Deine Routinen</h1></transition>
     <transition name="fade" mode="out-in">
       <div class="actions" v-if="!routine" key="actions">
         <v-row justify="start">
@@ -22,35 +24,36 @@
 import Chat from "../components/Chat.vue";
 import GoodMorning from "../components/usecases/GoodMorning.vue";
 import GoodNight from "../components/usecases/GoodNight.vue";
-import Food from "../components/usecases/Food.vue"
+import Food from "../components/usecases/Food.vue";
+import Sport from "../components/usecases/Sport.vue";
 import Action from "../components/usecases/ActionCard.vue";
 export default {
-  components: { Chat, GoodMorning, GoodNight, Action, Food },
+  components: { Chat, GoodMorning, GoodNight, Action, Food, Sport },
   data: () => ({
     actions: [
       {
-        imageURL: "/img/test.png",
+        imageURL: require("@/assets/img/test.png"),
         color: "#245535",
         title: "Sport 🏀",
         key: "sport",
         content: "Lust auf ein bisschen Sport? :)",
       },
       {
-        imageURL: "/img/sleep_cloud.png",
+        imageURL: require("@/assets/img/sleep_cloud.png"),
         color: "#350A67",
         title: "Gute Nacht 🌃",
         key: "night",
         content: "Gute Nacht 🌃",
       },
       {
-        imageURL: "/img/morning.png",
+        imageURL: require("@/assets/img/morning.png"),
         color: "#F47458",
         title: "Guten Morgen ☕",
         key: "morning",
         content: "Guten Morgen! Deine Routine für den Start in den Tag. :)",
       },
       {
-        imageURL: "/img/eat.png",
+        imageURL: require("@/assets/img/eat.png"),
         color: "#365DA4",
         title: "Essen 🥗",
         key: "eat",
@@ -59,13 +62,15 @@ export default {
 Deine Routine für jeden Hunger.`,
       },
     ],
-    routine: ''
+    routine: '',
+    messagesInChat: false
   }),
   methods: {
     getPageHeight() {
       return document.body.scrollHeight;
     },
     addMessage(message) {
+      this.messagesInChat = true;
       this.$refs.chat.addMessage(message);
       this.scrollToBottom();
       this.$nextTick(function () {
@@ -96,7 +101,6 @@ Deine Routine für jeden Hunger.`,
       if (curHours >= 14 && curHours <= 19) featured.push("sport");
       if (curHours >= 17 && curHours <= 20) featured.push("eat");
       if ((curHours > 20) || (curHours <= 3)) featured.push("night");
-      console.log(curHours);
       return featured;
     },
     sortedActions() {
@@ -110,6 +114,8 @@ Deine Routine für jeden Hunger.`,
           return Food;
         case "night":
           return GoodNight;
+        case "sport":
+          return Sport;
         default:
           return "";
       }
@@ -121,7 +127,7 @@ Deine Routine für jeden Hunger.`,
 <style>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.2s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
