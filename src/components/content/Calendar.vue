@@ -6,9 +6,10 @@
       @click:event="eventClicked"
       :events="events"
       ref="calendar"
+      :start="start"
     >
       <template v-slot:day-body>
-        <div class="current-time" :style="{ top: nowY }"></div>
+        <div class="current-time" :style="{ top: nowY }" v-if="!start"></div>
       </template>
     </v-calendar>
   </v-card>
@@ -21,6 +22,7 @@ export default {
     height: Number,
     "max-width": Number,
     "open-on-click": Boolean,
+    start: String
   },
   data: () => ({
     ready: false,
