@@ -1,10 +1,14 @@
-# pda_frontend
-=======
+# ffa_frontend
+
+The frontend for the Food & Fitness Agent.
+Built on Vue.js using the Vuetify Design Framework.
 
 ## Project setup
 ```
 npm install
 ```
+
+Adjust the Backend URL amd the Google Client ID in src/main.js
 
 ### Compiles and hot-reloads for development
 ```
@@ -15,13 +19,5 @@ npm run serve
 ```
 npm run build
 ```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
+### Credits
+Vector Graphics created by [pch.vector](https://www.freepik.com/pch-vector)
