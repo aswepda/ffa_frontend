@@ -8,7 +8,7 @@ Built on Vue.js using the Vuetify Design Framework.
 npm install
 ```
 
-Adjust the Backend URL amd the Google Client ID in src/main.js
+Adjust the Backend URL and the Google Client ID in src/main.js
 
 ### Compiles and hot-reloads for development
 ```
