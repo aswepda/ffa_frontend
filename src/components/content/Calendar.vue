@@ -6,7 +6,7 @@
       @click:event="eventClicked"
       :events="events"
       ref="calendar"
-      :start="start"
+      :start="start || undefined"
     >
       <template v-slot:day-body>
         <div class="current-time" :style="{ top: nowY }" v-if="!start"></div>
