@@ -22,8 +22,8 @@ export default {
     registration: null,
     notifications: [
       {
-        hour: 9,
-        minute: 0,
+        hour: 8,
+        minute: 30,
         message: "Guten Morgen!\nDenke an deine heutige Morgen-Routine!",
         icon: require("@/assets/img/morning.png"),
         lastHandled: null,
@@ -71,7 +71,7 @@ export default {
         let notDate = new Date();
         notDate.setHours(notification.hour, notification.minute);
         if (
-          curDate.valueOf() - notDate.valueOf() < 15 * 60 * 1000 &&
+          curDate.valueOf() - notDate.valueOf() < 30 * 60 * 1000 &&
           curDate.valueOf() - notDate.valueOf() >= 0 &&
           (!notification.lastHandled ||
             notification.lastHandled && curDate.valueOf() - notification.lastHandled.valueOf() > 60 * 60 * 1000)

@@ -271,10 +271,12 @@ export default {
         });
         if (events.length) {
           // TODO is calendar of tomorrow shown?
+          let tomorrowDate = events[0].start.toISOString().substr(0, 10);
           this.$emit("data", {
             type: "calendar",
             own: false,
             events: events,
+            start: tomorrowDate
           });
         }
       } catch (ex) {

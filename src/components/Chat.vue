@@ -90,6 +90,7 @@ export default {
             height: message.height || null,
             events: message.events,
             openOnClick: true,
+            start: message.start || null
           };
         }
         case "weather": {
